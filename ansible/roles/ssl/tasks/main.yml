@@ -29,6 +29,6 @@
 
 - name: Ensure the Certbot auto-renewal systemd timer is enabled and running
   ansible.builtin.systemd:
-    name: snap.certbot.renew.timer
+    name: certbot.timer
     enabled: true
     state: started
