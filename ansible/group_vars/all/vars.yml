@@ -21,7 +21,7 @@ venv_dir: /opt/elearning/venv
 static_root: /var/www/elearning/static
 
 # Destination for user-uploaded media files (served by Nginx).
-media_root: /var/www/elearning/media
+media_root: /opt/elearning/media
 
 # ── Git repository ────────────────────────────────────────────────────────────
 
