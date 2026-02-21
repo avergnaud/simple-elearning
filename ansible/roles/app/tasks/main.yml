@@ -84,3 +84,31 @@
     DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
   register: collectstatic_result
   changed_when: "'0 static files copied' not in collectstatic_result.stdout"
+
+# ── Admin role promotion ─────────────────────────────────────────────────────
+# Promotes a.vergnaud@catamania.com to role=admin and is_staff=True.
+# Safe to run before first login: prints USER_NOT_FOUND and exits cleanly if
+# the account does not exist yet (it is created on first OAuth login).
+
+- name: Promote a.vergnaud@catamania.com to admin role
+  ansible.builtin.shell: |
+    {{ venv_dir }}/bin/python manage.py shell -c "
+    from apps.accounts.models import User
+    u = User.objects.filter(email='a.vergnaud@catamania.com').first()
+    if u is None:
+        print('USER_NOT_FOUND')
+    elif u.role == 'admin' and u.is_staff:
+        print('ALREADY_ADMIN')
+    else:
+        u.role = 'admin'
+        u.is_staff = True
+        u.save()
+        print('PROMOTED')
+    "
+  args:
+    chdir: "{{ app_dir }}"
+  become_user: "{{ app_user }}"
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
+  register: promote_result
+  changed_when: "'PROMOTED' in promote_result.stdout"
