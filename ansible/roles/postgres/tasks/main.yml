@@ -28,13 +28,13 @@
     state: present
   become_user: postgres
 
-# PostgreSQL 16 on Ubuntu 25.04 defaults to scram-sha-256 password storage.
+# PostgreSQL 17 on Ubuntu 25.04 defaults to scram-sha-256 password storage.
 # We explicitly request scram-sha-256 here for compatibility with that default.
 # If your pg_hba.conf currently uses "md5", change the method below to "md5"
 # and ensure postgresql.conf has password_encryption = md5 as well.
 - name: Allow elearning_user to authenticate via SCRAM-SHA-256 from localhost
   community.postgresql.postgresql_pg_hba:
-    dest: /etc/postgresql/16/main/pg_hba.conf
+    dest: /etc/postgresql/17/main/pg_hba.conf
     contype: host
     databases: elearning_db
     users: elearning_user

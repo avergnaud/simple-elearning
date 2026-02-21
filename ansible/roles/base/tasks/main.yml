@@ -22,7 +22,7 @@
       - nginx
       - certbot
       - python3-certbot-nginx
-      - postgresql-16
+      - postgresql-17
       - libpq-dev
     state: present
   environment:
