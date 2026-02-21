@@ -4,10 +4,12 @@
 # =============================================================================
 
 # ── SSH deploy key ─────────────────────────────────────────────────────────────
+# The deploy key lives outside app_dir so that app_dir remains empty
+# on first run, allowing git clone to succeed.
 
-- name: Create .ssh directory for the {{ app_user }} system user
+- name: Create SSH key directory for deploy key
   ansible.builtin.file:
-    path: "{{ app_dir }}/.ssh"
+    path: /opt/elearning-deploy
     state: directory
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
@@ -16,7 +18,7 @@
 - name: Deploy GitHub SSH deploy key for repository access
   ansible.builtin.copy:
     content: "{{ vault_deploy_key }}"
-    dest: "{{ app_dir }}/.ssh/deploy_key"
+    dest: /opt/elearning-deploy/deploy_key
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
     mode: "0600"
@@ -30,7 +32,7 @@
     version: "{{ git_branch }}"
     update: true
     force: false
-    key_file: "{{ app_dir }}/.ssh/deploy_key"
+    key_file: /opt/elearning-deploy/deploy_key
     accept_hostkey: true   # adds github.com to known_hosts automatically
   become_user: "{{ app_user }}"
   register: git_result

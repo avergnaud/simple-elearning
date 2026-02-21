@@ -47,8 +47,8 @@
     name: "{{ app_user }}"
     system: true
     shell: /usr/sbin/nologin
-    home: "{{ app_dir }}"
-    create_home: false
+    home: /var/lib/elearning
+    create_home: true
     state: present
 
 - name: Create application directory owned by {{ app_user }}
