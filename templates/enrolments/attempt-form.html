@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load markdownify %}
+
+{% block title %}{{ quiz.title }} — Attempt{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'quizzes:quiz-list' %}">Quizzes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'quizzes:quiz-detail' quiz_id=quiz.pk %}">{{ quiz.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Attempt</li>
+  </ol>
+</nav>
+
+<h1 class="h2 mb-1">{{ quiz.title }}</h1>
+<p class="text-muted mb-4">Answer all {{ attempt_questions|length }} question{{ attempt_questions|length|pluralize }} below, then click <strong>Submit Quiz</strong>.</p>
+
+<form method="post" action="{% url 'quizzes:attempt' quiz_id=quiz.pk %}">
+  {% csrf_token %}
+  <input type="hidden" name="attempt_id" value="{{ attempt.pk }}">
+
+  {% for aq in attempt_questions %}
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-light">
+        <span class="fw-semibold">Question {{ aq.display_order }}</span>
+        {% if aq.question.question_type == "multiple" %}
+          <span class="badge bg-info text-dark ms-2">Select all that apply</span>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          {{ aq.question.text|markdownify }}
+        </div>
+
+        <div class="list-group">
+          {% for aa in aq.attempt_answers.all %}
+            <label class="list-group-item list-group-item-action">
+              {% if aq.question.question_type == "single" %}
+                <input class="form-check-input me-2" type="radio"
+                       name="aq_{{ aq.pk }}" value="{{ aa.answer.pk }}" required>
+              {% else %}
+                <input class="form-check-input me-2" type="checkbox"
+                       name="aq_{{ aq.pk }}" value="{{ aa.answer.pk }}">
+              {% endif %}
+              {{ aa.answer.text }}
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+    <button type="submit" class="btn btn-primary btn-lg px-5"
+            onclick="return confirm('Are you sure you want to submit your answers? You cannot change them afterwards.')">
+      Submit Quiz
+    </button>
+  </div>
+</form>
+{% endblock %}

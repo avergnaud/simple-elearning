@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Student Overview{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:reporting:report-home' %}">Reports</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Student Overview</li>
+  </ol>
+</nav>
+
+<h1 class="h2 mb-4">Student Overview</h1>
+
+{% if student_rows %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Student</th>
+          <th>Email</th>
+          <th class="text-end">Total attempts</th>
+          <th>Enrolled quizzes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in student_rows %}
+          <tr>
+            <td>{{ row.student.display_name }}</td>
+            <td class="text-muted small">{{ row.student.email }}</td>
+            <td class="text-end">{{ row.total_attempts }}</td>
+            <td>
+              {% for enrolment in row.enrolments %}
+                <span class="badge {% if enrolment.has_passed %}bg-success{% else %}bg-secondary{% endif %} me-1">
+                  {{ enrolment.quiz.title|truncatechars:30 }}
+                </span>
+              {% empty %}
+                <span class="text-muted">—</span>
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="alert alert-info">No students found.</div>
+{% endif %}
+{% endblock %}

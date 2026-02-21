@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Create Quiz{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:quiz-list' %}">Quizzes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Create Quiz</li>
+  </ol>
+</nav>
+
+<h1 class="h2 mb-4">Create New Quiz</h1>
+
+<div class="row">
+  <div class="col-lg-7">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="mb-3">
+              <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
+                {{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if field.errors %}
+                <div class="is-invalid">{% include "partials/field_errors.html" with errors=field.errors %}</div>
+              {% endif %}
+              {{ field }}
+              {% if field.help_text %}
+                <div class="form-text">{{ field.help_text }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Passing score</label>
+            <input type="text" class="form-control" value="70%" disabled>
+            <div class="form-text">Fixed at 70% for the MVP.</div>
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary">Create Quiz</button>
+            <a href="{% url 'admin-panel:quiz-list' %}" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Add Bootstrap form-control class to all form inputs automatically
+  document.querySelectorAll('input:not([type=hidden]):not([type=submit]), textarea, select').forEach(function(el) {
+    el.classList.add('form-control');
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load markdownify %}
+
+{% block title %}{{ quiz.title }} — Admin{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:quiz-list' %}">Quizzes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ quiz.title }}</li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-start mb-3">
+  <div>
+    <h1 class="h2 mb-1">{{ quiz.title }}</h1>
+    <div class="text-muted small">
+      {{ quiz.question_count }} question{{ quiz.question_count|pluralize }} in pool &bull;
+      {{ quiz.questions_shown }} shown per attempt &bull;
+      Passing: {{ quiz.passing_score }}%
+      {% if quiz.is_locked %}
+        &bull; <span class="badge bg-warning text-dark">Locked</span>
+      {% else %}
+        &bull; <span class="badge bg-success">Open — questions can be added</span>
+      {% endif %}
+    </div>
+  </div>
+  {% if not quiz.is_locked %}
+    <a href="{% url 'admin-panel:question-add' quiz_id=quiz.pk %}" class="btn btn-primary">
+      + Add Question
+    </a>
+  {% endif %}
+</div>
+
+{% if quiz.description %}
+  <div class="mb-4 p-3 bg-light rounded">
+    {{ quiz.description|markdownify }}
+  </div>
+{% endif %}
+
+<h3 class="h5 mb-3">Questions ({{ quiz.question_count }})</h3>
+
+{% if questions %}
+  {% for question in questions %}
+    <div class="card mb-3 shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">Q{{ question.order }}</span>
+        <span class="badge {% if question.question_type == 'multiple' %}bg-info text-dark{% else %}bg-secondary{% endif %}">
+          {{ question.get_question_type_display }}
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">{{ question.text|markdownify }}</div>
+        <ol type="A" class="mb-0">
+          {% for answer in question.answers.all %}
+            <li class="{% if answer.is_correct %}text-success fw-semibold{% endif %}">
+              {{ answer.text }}
+              {% if answer.is_correct %}<span class="badge bg-success ms-1">Correct</span>{% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-info">
+    No questions yet.
+    {% if not quiz.is_locked %}
+      <a href="{% url 'admin-panel:question-add' quiz_id=quiz.pk %}">Add the first question.</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

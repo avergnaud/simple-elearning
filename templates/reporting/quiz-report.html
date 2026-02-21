@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Report: {{ quiz.title }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:reporting:report-home' %}">Reports</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ quiz.title }}</li>
+  </ol>
+</nav>
+
+<h1 class="h2 mb-4">{{ quiz.title }}</h1>
+
+<div class="row row-cols-2 row-cols-md-4 g-3 mb-5">
+  <div class="col">
+    <div class="card text-center shadow-sm h-100">
+      <div class="card-body">
+        <div class="display-6 fw-bold text-primary">{{ enrolled_count }}</div>
+        <div class="text-muted small">Enrolled students</div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-center shadow-sm h-100">
+      <div class="card-body">
+        <div class="display-6 fw-bold text-secondary">{{ total_attempts }}</div>
+        <div class="text-muted small">Total attempts</div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-center shadow-sm h-100">
+      <div class="card-body">
+        <div class="display-6 fw-bold text-success">
+          {% if pass_rate is not None %}{{ pass_rate }}%{% else %}&mdash;{% endif %}
+        </div>
+        <div class="text-muted small">Pass rate</div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-center shadow-sm h-100">
+      <div class="card-body">
+        <div class="display-6 fw-bold text-info">
+          {% if avg_score is not None %}{{ avg_score }}%{% else %}&mdash;{% endif %}
+        </div>
+        <div class="text-muted small">Avg score</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="{% url 'admin-panel:reporting:quiz-students' quiz_id=quiz.pk %}" class="btn btn-primary">
+  View Per-Student Report
+</a>
+{% endblock %}

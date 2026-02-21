@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-sm mt-5">
+      <div class="card-body p-4 text-center">
+        <h1 class="h3 mb-4 fw-bold">E-Learning Platform</h1>
+        <p class="text-muted mb-4">
+          Sign in with your organisation's Microsoft account to access your quizzes.
+        </p>
+        <a href="{% url 'accounts:oauth-redirect' %}"
+           class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 21 21" fill="none">
+            <rect x="1" y="1" width="9" height="9" fill="#F25022"/>
+            <rect x="11" y="1" width="9" height="9" fill="#7FBA00"/>
+            <rect x="1" y="11" width="9" height="9" fill="#00A4EF"/>
+            <rect x="11" y="11" width="9" height="9" fill="#FFB900"/>
+          </svg>
+          Sign in with Microsoft
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

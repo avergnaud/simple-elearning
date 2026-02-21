@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Certificate of Completion — {{ quiz_title }}</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 2cm 2.5cm;
+    }
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      color: #1a1a1a;
+      font-size: 11pt;
+      line-height: 1.6;
+    }
+    .platform-name {
+      font-size: 10pt;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #555;
+      margin-bottom: 1.5cm;
+    }
+    .divider {
+      border: none;
+      border-top: 2px solid #1a1a1a;
+      margin: 0.8cm 0;
+    }
+    .divider-thin {
+      border: none;
+      border-top: 1px solid #999;
+      margin: 0.5cm 0;
+    }
+    .doc-title {
+      font-size: 24pt;
+      font-weight: bold;
+      text-align: center;
+      margin: 0.8cm 0 0.3cm;
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 11pt;
+      color: #555;
+      margin-bottom: 1.2cm;
+    }
+    .certifies-text {
+      text-align: center;
+      font-size: 11pt;
+      margin-bottom: 0.4cm;
+    }
+    .student-name {
+      text-align: center;
+      font-size: 20pt;
+      font-style: italic;
+      margin: 0.3cm 0 0.8cm;
+    }
+    .body-text {
+      text-align: center;
+      font-size: 11pt;
+      margin-bottom: 0.3cm;
+    }
+    .quiz-title {
+      text-align: center;
+      font-size: 15pt;
+      font-weight: bold;
+      margin: 0.2cm 0 0.8cm;
+    }
+    .detail-table {
+      width: 100%;
+      margin: 0.8cm 0;
+      border-collapse: collapse;
+    }
+    .detail-table td {
+      padding: 0.25cm 0.4cm;
+      vertical-align: top;
+    }
+    .detail-table .label {
+      font-weight: bold;
+      width: 35%;
+      color: #444;
+    }
+    .footer {
+      font-size: 8pt;
+      color: #888;
+      text-align: center;
+      margin-top: 1.5cm;
+    }
+    .verification-code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 9pt;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="platform-name">{{ platform_name }}</div>
+  <hr class="divider">
+
+  <div class="doc-title">Certificate of Completion</div>
+  <div class="subtitle">Proof of Assessment Pass</div>
+
+  <div class="certifies-text">This is to certify that</div>
+  <div class="student-name">{{ student_name }}</div>
+  <div class="body-text">has successfully completed the assessment</div>
+  <div class="quiz-title">{{ quiz_title }}</div>
+
+  <hr class="divider-thin">
+
+  <table class="detail-table">
+    <tr>
+      <td class="label">Score achieved:</td>
+      <td>{{ score_percent }}%</td>
+    </tr>
+    <tr>
+      <td class="label">Date of completion:</td>
+      <td>{{ passed_date|date:"d F Y" }}</td>
+    </tr>
+    <tr>
+      <td class="label">Verification code:</td>
+      <td class="verification-code">{{ certificate_code }}</td>
+    </tr>
+  </table>
+
+  <hr class="divider">
+
+  <div class="footer">
+    Document generated on {{ generated_at|date:"d F Y" }} at {{ generated_at|date:"H:i" }} UTC
+    by {{ platform_name }}.
+    The verification code above uniquely identifies this certificate.
+  </div>
+
+</body>
+</html>

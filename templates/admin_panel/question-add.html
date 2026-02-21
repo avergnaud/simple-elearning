@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Add Question — {{ quiz.title }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:quiz-list' %}">Quizzes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:quiz-detail' quiz_id=quiz.pk %}">{{ quiz.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add Question</li>
+  </ol>
+</nav>
+
+<h1 class="h2 mb-1">Add Question</h1>
+<p class="text-muted mb-4">Quiz: <strong>{{ quiz.title }}</strong></p>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-4">
+        <form method="post">
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label for="{{ form.text.id_for_label }}" class="form-label fw-semibold">
+              Question Text <span class="text-danger">*</span>
+            </label>
+            {% if form.text.errors %}<div class="text-danger small mb-1">{{ form.text.errors }}</div>{% endif %}
+            <textarea name="text" id="{{ form.text.id_for_label }}" rows="5"
+                      class="form-control{% if form.text.errors %} is-invalid{% endif %}">{{ form.text.value|default:"" }}</textarea>
+            <div class="form-text">Supports Markdown. To embed an image, use the
+              <a href="{% url 'admin-panel:image-upload' %}" target="_blank">Image Upload</a> tool.
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="{{ form.question_type.id_for_label }}" class="form-label fw-semibold">
+              Question Type <span class="text-danger">*</span>
+            </label>
+            {% if form.question_type.errors %}<div class="text-danger small mb-1">{{ form.question_type.errors }}</div>{% endif %}
+            <select name="question_type" id="{{ form.question_type.id_for_label }}" class="form-select">
+              <option value="">---------</option>
+              <option value="single" {% if form.question_type.value == "single" %}selected{% endif %}>Single choice</option>
+              <option value="multiple" {% if form.question_type.value == "multiple" %}selected{% endif %}>Multiple choice</option>
+            </select>
+          </div>
+
+          <h5 class="mb-2">Answers</h5>
+          <p class="text-muted small mb-3">Tick the checkbox next to each correct answer. Single choice: exactly one. Multiple choice: at least two.</p>
+
+          <div class="input-group mb-2">
+            <span class="input-group-text fw-bold">A</span>
+            <input type="text" name="answer_a" class="form-control" value="{{ form.answer_a.value|default:'' }}" placeholder="Answer A" required>
+            <div class="input-group-text">
+              <input class="form-check-input mt-0" type="checkbox" name="correct_a" id="correct_a" value="on" {% if form.correct_a.value %}checked{% endif %}>
+              <label class="ms-1 mb-0 small" for="correct_a">Correct</label>
+            </div>
+          </div>
+          <div class="input-group mb-2">
+            <span class="input-group-text fw-bold">B</span>
+            <input type="text" name="answer_b" class="form-control" value="{{ form.answer_b.value|default:'' }}" placeholder="Answer B" required>
+            <div class="input-group-text">
+              <input class="form-check-input mt-0" type="checkbox" name="correct_b" id="correct_b" value="on" {% if form.correct_b.value %}checked{% endif %}>
+              <label class="ms-1 mb-0 small" for="correct_b">Correct</label>
+            </div>
+          </div>
+          <div class="input-group mb-2">
+            <span class="input-group-text fw-bold">C</span>
+            <input type="text" name="answer_c" class="form-control" value="{{ form.answer_c.value|default:'' }}" placeholder="Answer C" required>
+            <div class="input-group-text">
+              <input class="form-check-input mt-0" type="checkbox" name="correct_c" id="correct_c" value="on" {% if form.correct_c.value %}checked{% endif %}>
+              <label class="ms-1 mb-0 small" for="correct_c">Correct</label>
+            </div>
+          </div>
+          <div class="input-group mb-2">
+            <span class="input-group-text fw-bold">D</span>
+            <input type="text" name="answer_d" class="form-control" value="{{ form.answer_d.value|default:'' }}" placeholder="Answer D" required>
+            <div class="input-group-text">
+              <input class="form-check-input mt-0" type="checkbox" name="correct_d" id="correct_d" value="on" {% if form.correct_d.value %}checked{% endif %}>
+              <label class="ms-1 mb-0 small" for="correct_d">Correct</label>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary">Save Question</button>
+            <a href="{% url 'admin-panel:quiz-detail' quiz_id=quiz.pk %}" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

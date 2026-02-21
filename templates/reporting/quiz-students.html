@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Per-Student Report: {{ quiz.title }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:reporting:report-home' %}">Reports</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:reporting:quiz-report' quiz_id=quiz.pk %}">{{ quiz.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Per-Student</li>
+  </ol>
+</nav>
+
+<h1 class="h2 mb-4">{{ quiz.title }} — Students</h1>
+
+{% if student_rows %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Student</th>
+          <th>Email</th>
+          <th class="text-end">Attempts</th>
+          <th class="text-end">Best score</th>
+          <th>Status</th>
+          <th>First attempt</th>
+          <th>Last attempt</th>
+          <th>Certificate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in student_rows %}
+          <tr>
+            <td>{{ row.student.display_name }}</td>
+            <td class="text-muted small">{{ row.student.email }}</td>
+            <td class="text-end">{{ row.attempt_count }}</td>
+            <td class="text-end">
+              {% if row.best_score is not None %}{{ row.best_score }}%{% else %}&mdash;{% endif %}
+            </td>
+            <td>
+              {% if row.has_passed %}
+                <span class="badge bg-success">Passed</span>
+              {% else %}
+                <span class="badge bg-secondary">Not passed</span>
+              {% endif %}
+            </td>
+            <td class="text-muted small">
+              {% if row.first_attempt %}{{ row.first_attempt|date:"d M Y" }}{% else %}&mdash;{% endif %}
+            </td>
+            <td class="text-muted small">
+              {% if row.last_attempt %}{{ row.last_attempt|date:"d M Y" }}{% else %}&mdash;{% endif %}
+            </td>
+            <td>
+              {% if row.has_passed %}
+                <a href="{% url 'admin-panel:reporting:certificate' enrolment_id=row.enrolment.pk %}"
+                   class="btn btn-sm btn-outline-success">Download PDF</a>
+              {% else %}
+                &mdash;
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="alert alert-info">No students have enrolled in this quiz yet.</div>
+{% endif %}
+{% endblock %}

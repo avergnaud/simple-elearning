@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h2 mb-0">Quiz Reports</h1>
+  <a href="{% url 'admin-panel:reporting:students-overview' %}" class="btn btn-outline-primary">
+    Student Overview
+  </a>
+</div>
+
+{% if quiz_stats %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Quiz</th>
+          <th class="text-end">Enrolled</th>
+          <th class="text-end">Attempts</th>
+          <th class="text-end">Pass rate</th>
+          <th class="text-end">Avg score</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz in quiz_stats %}
+          <tr>
+            <td><strong>{{ quiz.title }}</strong></td>
+            <td class="text-end">{{ quiz.enrolled_count }}</td>
+            <td class="text-end">{{ quiz.attempt_count }}</td>
+            <td class="text-end">
+              {% if quiz.pass_rate is not None %}{{ quiz.pass_rate }}%{% else %}&mdash;{% endif %}
+            </td>
+            <td class="text-end">
+              {% if quiz.avg_score is not None %}{{ quiz.avg_score|floatformat:1 }}%{% else %}&mdash;{% endif %}
+            </td>
+            <td class="text-end">
+              <a href="{% url 'admin-panel:reporting:quiz-report' quiz_id=quiz.pk %}"
+                 class="btn btn-sm btn-outline-secondary">Details</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="alert alert-info">No quizzes yet.</div>
+{% endif %}
+{% endblock %}

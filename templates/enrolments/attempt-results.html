@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load markdownify %}
+
+{% block title %}Results — {{ quiz.title }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'quizzes:quiz-list' %}">Quizzes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'quizzes:quiz-detail' quiz_id=quiz.pk %}">{{ quiz.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Results</li>
+  </ol>
+</nav>
+
+{# ---- Pass / Fail banner ---- #}
+{% if attempt.passed %}
+  <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+    <h2 class="alert-heading mb-1">Passed!</h2>
+    <p class="mb-0 fs-5">
+      You scored <strong>{{ attempt.score_percent }}%</strong>
+      ({{ correct_count }}/{{ total_questions }} correct)
+    </p>
+  </div>
+{% else %}
+  <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+    <h2 class="alert-heading mb-1">Not Passed</h2>
+    <p class="mb-0 fs-5">
+      You scored <strong>{{ attempt.score_percent }}%</strong>
+      ({{ correct_count }}/{{ total_questions }} correct).
+      The passing score is {{ quiz.passing_score }}%.
+    </p>
+  </div>
+{% endif %}
+
+{# ---- Actions ---- #}
+<div class="d-flex gap-2 mb-5 flex-wrap">
+  <a href="{% url 'quizzes:attempt' quiz_id=quiz.pk %}" class="btn btn-primary">
+    Try Again
+  </a>
+  {% if enrolment.has_passed %}
+    <a href="{% url 'quizzes:certificate' quiz_id=quiz.pk %}" class="btn btn-success">
+      Download Certificate
+    </a>
+  {% endif %}
+  <a href="{% url 'quizzes:quiz-detail' quiz_id=quiz.pk %}" class="btn btn-outline-secondary">
+    Back to Quiz
+  </a>
+</div>
+
+{# ---- Question review ---- #}
+<h3 class="h4 mb-3">Question Review</h3>
+
+{% for aq in attempt_questions %}
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-light">
+      <span class="fw-semibold">Question {{ aq.display_order }}</span>
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        {{ aq.question.text|markdownify }}
+      </div>
+
+      <div class="list-group">
+        {% for aa in aq.attempt_answers.all %}
+          {% with is_correct=aa.answer.is_correct %}
+          <div class="list-group-item
+                      {% if is_correct %}answer-correct
+                      {% elif aa.is_selected and not is_correct %}answer-wrong
+                      {% endif %}
+                      d-flex align-items-center gap-2">
+            {% if aa.is_selected and is_correct %}
+              <span class="badge bg-success">&#10003; Your answer (correct)</span>
+            {% elif aa.is_selected and not is_correct %}
+              <span class="badge bg-danger">&#10007; Your answer (incorrect)</span>
+            {% elif is_correct %}
+              <span class="badge bg-success">&#10003; Correct answer</span>
+            {% else %}
+              <span class="badge bg-light text-dark border">Not selected</span>
+            {% endif %}
+            {{ aa.answer.text }}
+          </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Image Upload{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'admin-panel:dashboard' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Image Upload</li>
+  </ol>
+</nav>
+
+<h1 class="h2 mb-4">Upload Image</h1>
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body p-4">
+        <p class="text-muted mb-3">
+          Upload an image to embed in a question. After uploading, copy the Markdown snippet
+          and paste it into the question text field.
+        </p>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="{{ form.image.id_for_label }}" class="form-label fw-semibold">
+              Image file <span class="text-danger">*</span>
+            </label>
+            {% if form.image.errors %}
+              <div class="text-danger small mb-1">{{ form.image.errors }}</div>
+            {% endif %}
+            <input type="file" name="image" id="{{ form.image.id_for_label }}"
+                   class="form-control{% if form.image.errors %} is-invalid{% endif %}"
+                   accept=".png,.jpg,.jpeg,.gif,.webp">
+            <div class="form-text">{{ form.image.help_text }}</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+      </div>
+    </div>
+
+    {% if markdown_snippet %}
+      <div class="card shadow-sm border-success">
+        <div class="card-header bg-success text-white fw-semibold">Upload Successful — Copy the snippet below</div>
+        <div class="card-body">
+          <p class="text-muted small mb-2">
+            Paste this snippet into your question text where you want the image to appear:
+          </p>
+          <input type="text" id="mdSnippet" class="form-control font-monospace mb-2"
+                 value="{{ markdown_snippet }}" readonly onclick="this.select()">
+          <button class="btn btn-sm btn-outline-success" onclick="copySnippet()">Copy to Clipboard</button>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function copySnippet() {
+  var el = document.getElementById('mdSnippet');
+  el.select();
+  document.execCommand('copy');
+  alert('Snippet copied to clipboard!');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Catalogue{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h2">Quiz Catalogue</h1>
+</div>
+
+{% if quiz_list %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for item in quiz_list %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'quizzes:quiz-detail' quiz_id=item.quiz.pk %}"
+                 class="text-decoration-none text-dark stretched-link">
+                {{ item.quiz.title }}
+              </a>
+            </h5>
+            {% if item.quiz.description %}
+              <p class="card-text text-muted small">
+                {{ item.quiz.description|truncatechars:120 }}
+              </p>
+            {% endif %}
+            <p class="card-text small">
+              <span class="text-muted">Questions per attempt:</span>
+              <strong>{{ item.quiz.questions_shown }}</strong>
+            </p>
+          </div>
+          <div class="card-footer bg-transparent">
+            {% if item.enrolment %}
+              {% if item.enrolment.has_passed %}
+                <span class="badge bg-success">Passed</span>
+              {% else %}
+                <span class="badge bg-primary">Enrolled</span>
+              {% endif %}
+            {% else %}
+              <span class="badge bg-secondary">Not enrolled</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">No quizzes are available yet.</div>
+{% endif %}
+{% endblock %}

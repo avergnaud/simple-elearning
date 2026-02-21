@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Quizzes{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h2 mb-0">Quizzes</h1>
+  <a href="{% url 'admin-panel:quiz-create' %}" class="btn btn-primary">+ New Quiz</a>
+</div>
+
+{% if quizzes %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Title</th>
+          <th>Questions (pool)</th>
+          <th>Shown per attempt</th>
+          <th>Passing score</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz in quizzes %}
+          <tr>
+            <td>
+              <a href="{% url 'admin-panel:quiz-detail' quiz_id=quiz.pk %}">{{ quiz.title }}</a>
+            </td>
+            <td>{{ quiz.question_count }}</td>
+            <td>{{ quiz.questions_shown }}</td>
+            <td>{{ quiz.passing_score }}%</td>
+            <td>
+              {% if quiz.is_locked %}
+                <span class="badge bg-warning text-dark">Locked</span>
+              {% else %}
+                <span class="badge bg-success">Open</span>
+              {% endif %}
+            </td>
+            <td class="text-muted small">{{ quiz.created_at|date:"d M Y" }}</td>
+            <td>
+              <a href="{% url 'admin-panel:quiz-detail' quiz_id=quiz.pk %}"
+                 class="btn btn-sm btn-outline-secondary">View</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="alert alert-info">No quizzes yet. <a href="{% url 'admin-panel:quiz-create' %}">Create the first one.</a></div>
+{% endif %}
+{% endblock %}
