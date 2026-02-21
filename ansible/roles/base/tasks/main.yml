@@ -24,6 +24,7 @@
       - python3-certbot-nginx
       - postgresql-17
       - libpq-dev
+      - acl
     state: present
   environment:
     DEBIAN_FRONTEND: noninteractive
