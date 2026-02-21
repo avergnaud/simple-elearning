@@ -1,0 +1,63 @@
+---
+# =============================================================================
+# group_vars/all/vars.yml — Non-secret variables for all hosts
+# =============================================================================
+# All secrets (passwords, keys, OAuth credentials) live in vault.yml.
+# =============================================================================
+
+# ── Application user and directories ─────────────────────────────────────────
+
+# Dedicated system account that owns application files and runs Gunicorn.
+# Created with no login shell for security.
+app_user: elearning
+
+# Directory where the Django project is cloned.
+app_dir: /opt/elearning
+
+# Python virtualenv created inside the project directory.
+venv_dir: /opt/elearning/venv
+
+# Destination for `manage.py collectstatic` output (served by Nginx).
+static_root: /var/www/elearning/static
+
+# Destination for user-uploaded media files (served by Nginx).
+media_root: /var/www/elearning/media
+
+# ── Git repository ────────────────────────────────────────────────────────────
+
+# SSH URL of the GitHub repository. A deploy key must be authorised on the repo.
+git_repo_url: git@github.com:avergnaud/simple-elearning.git
+
+# Branch to check out.
+git_branch: main
+
+# ── Django ────────────────────────────────────────────────────────────────────
+
+# Settings module passed to all management commands and Gunicorn.
+django_settings_module: elearning.settings.production
+
+# ── Domain and TLS ────────────────────────────────────────────────────────────
+
+# Primary domain. The DNS A record must already resolve to this server's IP.
+domain: appsec.cc
+
+# Email address registered with Let's Encrypt for expiry notifications.
+# CHANGE THIS before running the playbook.
+certbot_email: a.vergnaud@gmail.com
+
+# Set to true on the very first test run to use the Let's Encrypt staging CA
+# and avoid hitting production rate limits. Switch to false before going live.
+certbot_staging: false
+
+# ── Gunicorn ──────────────────────────────────────────────────────────────────
+
+# Number of synchronous worker processes (rule of thumb: 2 × CPU cores + 1).
+gunicorn_workers: 3
+
+# Loopback address and port that Gunicorn listens on. Nginx proxies to this.
+gunicorn_bind: "127.0.0.1:8000"
+
+# ── Application content ───────────────────────────────────────────────────────
+
+# Human-readable platform name embedded in generated PDF certificates.
+platform_name: "E-Learning Platform"

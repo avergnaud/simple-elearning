@@ -1,0 +1,6 @@
+---
+# Triggered by the app role when the git repository is updated.
+- name: Restart Gunicorn
+  ansible.builtin.systemd:
+    name: elearning-gunicorn
+    state: restarted

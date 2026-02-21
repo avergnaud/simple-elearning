@@ -1,0 +1,36 @@
+---
+# =============================================================================
+# site.yml — Main playbook for provisioning and deploying the E-Learning platform
+# =============================================================================
+#
+# Usage:
+#   ansible-playbook -i inventory/hosts.yml site.yml --ask-vault-pass
+#
+# On the very first provisioning run:
+#   1. base/postgres/app/gunicorn roles run normally.
+#   2. The nginx role deploys an HTTP-only config (no TLS cert yet).
+#   3. The ssl role runs Certbot, which obtains the certificate and temporarily
+#      modifies the Nginx config to complete the ACME HTTP-01 challenge.
+#   4. The post_task re-applies the nginx role; it now sees the certificate on
+#      disk and deploys the full HTTP-redirect + HTTPS configuration.
+#
+# On every subsequent run, all roles are fully idempotent.
+# =============================================================================
+
+- name: Provision and deploy the E-Learning platform
+  hosts: all
+  become: true
+
+  roles:
+    - role: base
+    - role: postgres
+    - role: app
+    - role: gunicorn
+    - role: nginx
+    - role: ssl
+
+  post_tasks:
+    - name: Re-apply Nginx configuration with TLS (certificate now exists)
+      ansible.builtin.include_role:
+        name: nginx
+      tags: [nginx, ssl]

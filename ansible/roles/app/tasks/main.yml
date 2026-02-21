@@ -1,0 +1,84 @@
+---
+# =============================================================================
+# roles/app/tasks/main.yml — Application code deployment and Django setup
+# =============================================================================
+
+# ── SSH deploy key ─────────────────────────────────────────────────────────────
+
+- name: Create .ssh directory for the {{ app_user }} system user
+  ansible.builtin.file:
+    path: "{{ app_dir }}/.ssh"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0700"
+
+- name: Deploy GitHub SSH deploy key for repository access
+  ansible.builtin.copy:
+    content: "{{ vault_deploy_key }}"
+    dest: "{{ app_dir }}/.ssh/deploy_key"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0600"
+
+# ── Code deployment ─────────────────────────────────────────────────────────────
+
+- name: Clone or update the application repository from GitHub
+  ansible.builtin.git:
+    repo: "{{ git_repo_url }}"
+    dest: "{{ app_dir }}"
+    version: "{{ git_branch }}"
+    update: true
+    force: false
+    key_file: "{{ app_dir }}/.ssh/deploy_key"
+    accept_hostkey: true   # adds github.com to known_hosts automatically
+  become_user: "{{ app_user }}"
+  register: git_result
+  notify: Restart Gunicorn
+
+# ── Python virtual environment ──────────────────────────────────────────────────
+
+- name: Create Python 3.12 virtual environment
+  ansible.builtin.command:
+    cmd: python3.12 -m venv "{{ venv_dir }}"
+    creates: "{{ venv_dir }}/bin/python"   # skip if venv already exists
+  become_user: "{{ app_user }}"
+
+- name: Install Python dependencies from requirements.txt
+  ansible.builtin.pip:
+    requirements: "{{ app_dir }}/requirements.txt"
+    virtualenv: "{{ venv_dir }}"
+    state: present
+  become_user: "{{ app_user }}"
+
+# ── Environment configuration ───────────────────────────────────────────────────
+
+- name: Deploy .env secrets file (owner={{ app_user }}, mode=0600)
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ app_dir }}/.env"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0600"
+
+# ── Django management commands ──────────────────────────────────────────────────
+
+- name: Apply database migrations
+  ansible.builtin.command:
+    cmd: "{{ venv_dir }}/bin/python manage.py migrate --no-input"
+    chdir: "{{ app_dir }}"
+  become_user: "{{ app_user }}"
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
+  register: migrate_result
+  changed_when: "'No migrations to apply.' not in migrate_result.stdout"
+
+- name: Collect static files into {{ static_root }}
+  ansible.builtin.command:
+    cmd: "{{ venv_dir }}/bin/python manage.py collectstatic --no-input"
+    chdir: "{{ app_dir }}"
+  become_user: "{{ app_user }}"
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ django_settings_module }}"
+  register: collectstatic_result
+  changed_when: "'0 static files copied' not in collectstatic_result.stdout"

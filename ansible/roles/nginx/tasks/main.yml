@@ -1,0 +1,50 @@
+---
+# =============================================================================
+# roles/nginx/tasks/main.yml — Nginx reverse-proxy configuration
+# =============================================================================
+# This role is run TWICE per playbook execution (once before ssl, once after via
+# post_tasks include_role). On the first pass the certificate does not yet exist
+# and an HTTP-only config is deployed. On the second pass the certificate exists
+# and the full HTTP-redirect + HTTPS config is deployed.
+# =============================================================================
+
+- name: Check whether the Let's Encrypt certificate exists on disk
+  ansible.builtin.stat:
+    path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+  register: ssl_cert_stat
+
+- name: Set ssl_cert_exists fact for use in the Nginx Jinja2 template
+  ansible.builtin.set_fact:
+    ssl_cert_exists: "{{ ssl_cert_stat.stat.exists }}"
+
+- name: Deploy Nginx site configuration from template
+  ansible.builtin.template:
+    src: elearning.conf.j2
+    dest: /etc/nginx/sites-available/elearning
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload Nginx
+
+- name: Enable the elearning site (symlink into sites-enabled)
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/elearning
+    dest: /etc/nginx/sites-enabled/elearning
+    state: link
+
+- name: Remove the default Nginx site if present
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Reload Nginx
+
+- name: Ensure Nginx service is enabled and started
+  ansible.builtin.systemd:
+    name: nginx
+    enabled: true
+    state: started
+
+# Flush all pending handlers so Nginx is running with the current config
+# before the ssl role attempts the ACME HTTP-01 challenge on port 80.
+- name: Flush handlers to apply Nginx configuration immediately
+  ansible.builtin.meta: flush_handlers

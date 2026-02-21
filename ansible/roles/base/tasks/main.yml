@@ -1,0 +1,74 @@
+---
+# =============================================================================
+# roles/base/tasks/main.yml — System-level setup
+# =============================================================================
+
+- name: Update apt cache and perform a full non-interactive system upgrade
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: full
+    cache_valid_time: 0   # always refresh on this role
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: Install core system packages
+  ansible.builtin.apt:
+    name:
+      - python3.12
+      - python3.12-venv
+      - python3-pip
+      - git
+      - curl
+      - nginx
+      - certbot
+      - python3-certbot-nginx
+      - postgresql-16
+      - libpq-dev
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: Install WeasyPrint system-level dependencies
+  ansible.builtin.apt:
+    name:
+      - libpango-1.0-0
+      - libpangoft2-1.0-0
+      - libgdk-pixbuf2.0-0
+      - libffi-dev
+      - shared-mime-info
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: Create dedicated system user for the application (no login shell)
+  ansible.builtin.user:
+    name: "{{ app_user }}"
+    system: true
+    shell: /usr/sbin/nologin
+    home: "{{ app_dir }}"
+    create_home: false
+    state: present
+
+- name: Create application directory owned by {{ app_user }}
+  ansible.builtin.file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0755"
+
+- name: Create static-files directory owned by {{ app_user }}
+  ansible.builtin.file:
+    path: "{{ static_root }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0755"
+
+- name: Create media-files directory owned by {{ app_user }}
+  ansible.builtin.file:
+    path: "{{ media_root }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0755"

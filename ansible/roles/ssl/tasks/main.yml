@@ -1,0 +1,34 @@
+---
+# =============================================================================
+# roles/ssl/tasks/main.yml — Let's Encrypt TLS certificate management
+# =============================================================================
+# Certbot uses the --nginx plugin to temporarily modify the Nginx site config
+# for the ACME HTTP-01 challenge, then obtains the certificate. The nginx
+# post_task in site.yml subsequently re-deploys the Ansible-managed config
+# with full TLS enabled.
+# =============================================================================
+
+- name: Check whether the Let's Encrypt certificate already exists
+  ansible.builtin.stat:
+    path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+  register: ssl_cert_stat
+
+- name: Obtain Let's Encrypt certificate via Certbot (skipped if cert already exists)
+  ansible.builtin.command:
+    cmd: >
+      certbot --nginx
+      -d {{ domain }}
+      -d www.{{ domain }}
+      --non-interactive
+      --agree-tos
+      --email {{ certbot_email }}
+      {{ '--staging' if certbot_staging else '' }}
+  when: not ssl_cert_stat.stat.exists
+  register: certbot_result
+  changed_when: certbot_result.rc == 0
+
+- name: Ensure the Certbot auto-renewal systemd timer is enabled and running
+  ansible.builtin.systemd:
+    name: snap.certbot.renew.timer
+    enabled: true
+    state: started

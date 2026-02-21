@@ -1,0 +1,24 @@
+---
+# =============================================================================
+# roles/gunicorn/tasks/main.yml — Gunicorn systemd service management
+# =============================================================================
+
+- name: Deploy Gunicorn systemd service unit file
+  ansible.builtin.template:
+    src: gunicorn.service.j2
+    dest: /etc/systemd/system/elearning-gunicorn.service
+    owner: root
+    group: root
+    mode: "0644"
+  register: gunicorn_unit_result
+
+- name: Reload systemd daemon to register unit file changes
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when: gunicorn_unit_result.changed
+
+- name: Enable and start the elearning-gunicorn service
+  ansible.builtin.systemd:
+    name: elearning-gunicorn
+    enabled: true
+    state: started

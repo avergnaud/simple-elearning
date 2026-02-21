@@ -1,0 +1,45 @@
+---
+# =============================================================================
+# roles/postgres/tasks/main.yml — PostgreSQL database setup
+# =============================================================================
+# Requires the community.postgresql collection:
+#   ansible-galaxy collection install -r requirements.yml
+# =============================================================================
+
+- name: Ensure PostgreSQL service is started and enabled at boot
+  ansible.builtin.systemd:
+    name: postgresql
+    state: started
+    enabled: true
+
+- name: Create PostgreSQL application role (elearning_user)
+  community.postgresql.postgresql_user:
+    name: elearning_user
+    password: "{{ vault_db_password }}"
+    role_attr_flags: LOGIN
+    state: present
+  become_user: postgres
+
+- name: Create PostgreSQL application database (elearning_db)
+  community.postgresql.postgresql_db:
+    name: elearning_db
+    owner: elearning_user
+    encoding: UTF8
+    state: present
+  become_user: postgres
+
+# PostgreSQL 16 on Ubuntu 25.04 defaults to scram-sha-256 password storage.
+# We explicitly request scram-sha-256 here for compatibility with that default.
+# If your pg_hba.conf currently uses "md5", change the method below to "md5"
+# and ensure postgresql.conf has password_encryption = md5 as well.
+- name: Allow elearning_user to authenticate via SCRAM-SHA-256 from localhost
+  community.postgresql.postgresql_pg_hba:
+    dest: /etc/postgresql/16/main/pg_hba.conf
+    contype: host
+    databases: elearning_db
+    users: elearning_user
+    address: "127.0.0.1/32"
+    method: scram-sha-256
+    state: present
+  notify: Reload PostgreSQL
+  become_user: postgres

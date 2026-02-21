@@ -1,0 +1,19 @@
+# /etc/systemd/system/elearning-gunicorn.service
+# Managed by Ansible — do not edit manually.
+
+[Unit]
+Description=Gunicorn WSGI server for the E-Learning Platform
+After=network.target postgresql.service
+
+[Service]
+User={{ app_user }}
+WorkingDirectory={{ app_dir }}
+EnvironmentFile={{ app_dir }}/.env
+ExecStart={{ venv_dir }}/bin/gunicorn elearning.wsgi:application \
+    --bind {{ gunicorn_bind }} \
+    --workers {{ gunicorn_workers }}
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
