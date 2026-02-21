@@ -28,3 +28,39 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Whitenoise: cache static files aggressively in production
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} {levelname} {name} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "/var/log/elearning/django.log",
+            "maxBytes": 10 * 1024 * 1024,  # 10 MB
+            "backupCount": 5,
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["file"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "django.request": {
+            "handlers": ["file"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
+}

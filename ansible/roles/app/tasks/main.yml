@@ -63,6 +63,16 @@
     group: "{{ app_user }}"
     mode: "0600"
 
+# ── Log directory ───────────────────────────────────────────────────────────────
+
+- name: Create Django log directory
+  ansible.builtin.file:
+    path: /var/log/elearning
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0750"
+
 # ── Django management commands ──────────────────────────────────────────────────
 
 - name: Apply database migrations
