@@ -38,9 +38,9 @@
 
 # ── Python virtual environment ──────────────────────────────────────────────────
 
-- name: Create Python 3.12 virtual environment
+- name: Create Python 3.13 virtual environment
   ansible.builtin.command:
-    cmd: python3.12 -m venv "{{ venv_dir }}"
+    cmd: python3.13 -m venv "{{ venv_dir }}"
     creates: "{{ venv_dir }}/bin/python"   # skip if venv already exists
   become_user: "{{ app_user }}"
 
