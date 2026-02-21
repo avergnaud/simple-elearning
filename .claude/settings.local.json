@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__new_page",
+      "Bash(taskkill:*)",
+      "Bash(tasklist:*)",
+      "Read(//c/Users/a.vergnaud/.cache/chrome-devtools-mcp/chrome-profile/**)",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__list_network_requests"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\a.vergnaud\\.cache\\chrome-devtools-mcp\\chrome-profile\\Default"
+    ]
+  }
+}

@@ -3,7 +3,6 @@ import uuid
 import os
 
 from django.contrib import messages
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import DetailView, FormView, ListView, TemplateView, View
 
@@ -31,7 +30,7 @@ class QuizListView(ListView):
             from django.conf import settings
             return redirect(settings.LOGIN_URL)
         if request.user.is_admin:
-            raise PermissionDenied
+            return redirect("admin-panel:dashboard")
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -65,7 +64,7 @@ class QuizDetailView(DetailView):
             from django.conf import settings
             return redirect(settings.LOGIN_URL)
         if request.user.is_admin:
-            raise PermissionDenied
+            return redirect("admin-panel:dashboard")
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
