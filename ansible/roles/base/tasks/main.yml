@@ -25,6 +25,7 @@
       - postgresql-17
       - libpq-dev
       - acl
+      - python3-psycopg2
     state: present
   environment:
     DEBIAN_FRONTEND: noninteractive
