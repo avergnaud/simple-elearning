@@ -91,6 +91,37 @@
       font-size: 9pt;
       letter-spacing: 1px;
     }
+    .test-details-title {
+      font-size: 13pt;
+      font-weight: bold;
+      margin: 0.8cm 0 0.4cm;
+    }
+    .question-block {
+      margin-bottom: 0.4cm;
+      page-break-inside: avoid;
+    }
+    .question-text {
+      font-size: 10pt;
+      font-weight: bold;
+      margin-bottom: 0.1cm;
+    }
+    .answer-row {
+      font-size: 10pt;
+      padding-left: 0.5cm;
+      margin-bottom: 0.05cm;
+    }
+    .answer-correct {
+      color: #2a7a2a;
+    }
+    .answer-incorrect {
+      color: #b03030;
+    }
+    .no-answer {
+      font-size: 10pt;
+      font-style: italic;
+      color: #888;
+      padding-left: 0.5cm;
+    }
   </style>
 </head>
 <body>
@@ -122,6 +153,25 @@
       <td class="verification-code">{{ certificate_code }}</td>
     </tr>
   </table>
+
+  <hr class="divider">
+
+  <div class="test-details-title">Test Details</div>
+
+  {% for q in questions_detail %}
+  <div class="question-block">
+    <div class="question-text">{{ q.number }}. {{ q.text }}</div>
+    {% if q.selected_answers %}
+      {% for answer_text in q.selected_answers %}
+      <div class="answer-row {% if q.is_correct %}answer-correct{% else %}answer-incorrect{% endif %}">
+        {% if q.is_correct %}&#10003;{% else %}&#10007;{% endif %} {{ answer_text }}
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-answer">No answer recorded</div>
+    {% endif %}
+  </div>
+  {% endfor %}
 
   <hr class="divider">
 

@@ -19,6 +19,27 @@ def render_certificate_pdf(enrolment) -> HttpResponse:
         An ``HttpResponse`` with Content-Type ``application/pdf`` and an
         appropriate ``Content-Disposition`` attachment header.
     """
+    attempt = enrolment.passing_attempt
+    attempt_questions = (
+        attempt.attempt_questions
+        .select_related("question")
+        .prefetch_related("attempt_answers__answer")
+        .order_by("display_order")
+    )
+
+    questions_detail = []
+    for aq in attempt_questions:
+        all_answers = list(aq.attempt_answers.all())
+        correct_ids = {str(aa.answer_id) for aa in all_answers if aa.answer.is_correct}
+        selected = [aa for aa in all_answers if aa.is_selected]
+        selected_ids = {str(aa.answer_id) for aa in selected}
+        questions_detail.append({
+            "number": aq.display_order,
+            "text": aq.question.text,
+            "selected_answers": [aa.answer.text for aa in selected],
+            "is_correct": selected_ids == correct_ids,
+        })
+
     context = {
         "student_name": enrolment.student.display_name,
         "quiz_title": enrolment.quiz.title,
@@ -27,6 +48,7 @@ def render_certificate_pdf(enrolment) -> HttpResponse:
         "certificate_code": str(enrolment.certificate_code).upper(),
         "platform_name": settings.PLATFORM_NAME,
         "generated_at": timezone.now(),
+        "questions_detail": questions_detail,
     }
 
     html_string = render_to_string("certificates/certificate.html", context)
