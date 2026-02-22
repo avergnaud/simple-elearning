@@ -39,9 +39,9 @@
                    data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="{% url 'admin-panel:dashboard' %}">Dashboard</a></li>
+                  <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{% url 'admin-panel:quiz-list' %}">Quizzes</a></li>
                   <li><a class="dropdown-item" href="{% url 'admin-panel:reporting:report-home' %}">Reports</a></li>
-                  <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{% url 'admin-panel:image-upload' %}">Image Upload</a></li>
                 </ul>
               </li>

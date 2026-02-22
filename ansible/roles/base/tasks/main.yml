@@ -26,6 +26,7 @@
       - libpq-dev
       - acl
       - python3-psycopg2
+      - net-tools
     state: present
   environment:
     DEBIAN_FRONTEND: noninteractive
@@ -74,3 +75,85 @@
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
     mode: "0755"
+
+# =============================================================================
+# UFW firewall
+# Rules are applied before UFW is enabled to avoid any lockout risk.
+# =============================================================================
+
+- name: Install ufw
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: Set UFW default incoming policy to deny
+  community.general.ufw:
+    direction: incoming
+    default: deny
+
+- name: Set UFW default outgoing policy to deny
+  community.general.ufw:
+    direction: outgoing
+    default: deny
+
+- name: Allow incoming SSH (rate-limited)
+  community.general.ufw:
+    rule: limit
+    direction: in
+    port: "22"
+    proto: tcp
+
+- name: Allow incoming HTTP (Nginx redirect + Let's Encrypt renewal)
+  community.general.ufw:
+    rule: allow
+    direction: in
+    port: "80"
+    proto: tcp
+
+- name: Allow incoming HTTPS
+  community.general.ufw:
+    rule: allow
+    direction: in
+    port: "443"
+    proto: tcp
+
+- name: Allow outgoing SSH (git push/pull to remote repositories)
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: "22"
+    proto: tcp
+
+- name: Allow outgoing DNS (UDP)
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: "53"
+    proto: udp
+
+- name: Allow outgoing DNS (TCP)
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: "53"
+    proto: tcp
+
+- name: Allow outgoing HTTP (apt package lists)
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: "80"
+    proto: tcp
+
+- name: Allow outgoing HTTPS (apt, Let's Encrypt, APIs)
+  community.general.ufw:
+    rule: allow
+    direction: out
+    port: "443"
+    proto: tcp
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled

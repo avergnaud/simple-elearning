@@ -17,6 +17,11 @@ urlpatterns = [
         views.AdminQuestionAddView.as_view(),
         name="question-add",
     ),
+    path(
+        "quizzes/<uuid:quiz_id>/questions/<uuid:question_id>/edit/",
+        views.AdminQuestionEditView.as_view(),
+        name="question-edit",
+    ),
     # Image upload
     path("media/upload/", views.AdminImageUploadView.as_view(), name="image-upload"),
     # Reporting (nested namespace)

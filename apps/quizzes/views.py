@@ -187,6 +187,69 @@ class AdminQuestionAddView(AdminRequiredMixin, FormView):
         return redirect("admin-panel:quiz-detail", quiz_id=self.quiz.pk)
 
 
+class AdminQuestionEditView(AdminRequiredMixin, FormView):
+    """Form view for editing an existing question and its four answers.
+
+    Only available while the quiz is not locked (no student has yet enrolled).
+    """
+
+    template_name = "admin_panel/question-edit.html"
+    form_class = QuestionAddForm
+
+    def setup(self, request, *args, **kwargs):
+        """Resolve the quiz and question from URL parameters."""
+        super().setup(request, *args, **kwargs)
+        self.quiz = get_object_or_404(Quiz, pk=kwargs["quiz_id"])
+        self.question = get_object_or_404(Question, pk=kwargs["question_id"], quiz=self.quiz)
+        self.answers = list(self.question.answers.order_by("order"))
+
+    def dispatch(self, request, *args, **kwargs):
+        """Reject if quiz is locked."""
+        if self.quiz.is_locked:
+            messages.error(request, "This quiz is locked and cannot be modified.")
+            return redirect("admin-panel:quiz-detail", quiz_id=self.quiz.pk)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        """Pre-populate form with the existing question text, type, and answer data."""
+        initial = super().get_initial()
+        initial["text"] = self.question.text
+        initial["question_type"] = self.question.question_type
+        labels = ["a", "b", "c", "d"]
+        for i, label in enumerate(labels):
+            if i < len(self.answers):
+                initial[f"answer_{label}"] = self.answers[i].text
+                initial[f"correct_{label}"] = self.answers[i].is_correct
+        return initial
+
+    def get_context_data(self, **kwargs):
+        """Inject the quiz and question into template context."""
+        context = super().get_context_data(**kwargs)
+        context["quiz"] = self.quiz
+        context["question"] = self.question
+        return context
+
+    def form_valid(self, form):
+        """Update the question and its four answers, then redirect to quiz detail."""
+        self.question.text = form.cleaned_data["text"]
+        self.question.question_type = form.cleaned_data["question_type"]
+        self.question.save(update_fields=["text", "question_type"])
+
+        answer_data = [
+            (form.cleaned_data["answer_a"], form.cleaned_data["correct_a"]),
+            (form.cleaned_data["answer_b"], form.cleaned_data["correct_b"]),
+            (form.cleaned_data["answer_c"], form.cleaned_data["correct_c"]),
+            (form.cleaned_data["answer_d"], form.cleaned_data["correct_d"]),
+        ]
+        for answer, (text, is_correct) in zip(self.answers, answer_data):
+            answer.text = text
+            answer.is_correct = is_correct
+            answer.save(update_fields=["text", "is_correct"])
+
+        messages.success(self.request, "Question updated successfully.")
+        return redirect("admin-panel:quiz-detail", quiz_id=self.quiz.pk)
+
+
 class AdminImageUploadView(AdminRequiredMixin, FormView):
     """Upload an image and return a Markdown snippet for use in question text."""
 
