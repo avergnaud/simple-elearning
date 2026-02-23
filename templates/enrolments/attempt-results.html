@@ -52,8 +52,13 @@
 
 {% for aq in attempt_questions %}
   <div class="card mb-4 shadow-sm">
-    <div class="card-header bg-light">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
       <span class="fw-semibold">Question {{ aq.display_order }}</span>
+      {% if aq.is_correct %}
+        <span class="badge bg-success">Correct</span>
+      {% else %}
+        <span class="badge bg-danger">Incorrect</span>
+      {% endif %}
     </div>
     <div class="card-body">
       <div class="mb-3">

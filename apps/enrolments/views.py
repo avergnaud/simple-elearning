@@ -198,7 +198,8 @@ class AttemptResultsView(LoginRequiredMixin, DetailView):
         for aq in attempt_questions:
             selected_ids = {str(aa.answer_id) for aa in aq.attempt_answers.all() if aa.is_selected}
             correct_ids = {str(a.pk) for a in aq.question.answers.all() if a.is_correct}
-            if selected_ids == correct_ids:
+            aq.is_correct = selected_ids == correct_ids
+            if aq.is_correct:
                 correct_count += 1
 
         context["quiz"] = enrolment.quiz
