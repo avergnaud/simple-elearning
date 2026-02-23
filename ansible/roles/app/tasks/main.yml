@@ -31,7 +31,7 @@
     dest: "{{ app_dir }}"
     version: "{{ git_branch }}"
     update: true
-    force: false
+    force: true
     key_file: /opt/elearning-deploy/deploy_key
     accept_hostkey: true   # adds github.com to known_hosts automatically
   become_user: "{{ app_user }}"
