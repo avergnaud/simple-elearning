@@ -205,7 +205,7 @@ class AttemptResultsView(LoginRequiredMixin, DetailView):
         context["enrolment"] = enrolment
         context["attempt_questions"] = attempt_questions
         context["correct_count"] = correct_count
-        context["total_questions"] = attempt_questions.count()
+        context["total_questions"] = len(attempt_questions)
         return context
 
 
