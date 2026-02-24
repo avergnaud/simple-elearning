@@ -250,6 +250,45 @@ class AdminQuestionEditView(AdminRequiredMixin, FormView):
         return redirect("admin-panel:quiz-detail", quiz_id=self.quiz.pk)
 
 
+class AdminQuizDuplicateView(AdminRequiredMixin, View):
+    """Create a full copy of a quiz (questions + answers) that is unlocked and editable.
+
+    The duplicate gets the title "Copy of <original title>", is_locked=False,
+    and all questions/answers are deep-copied with fresh UUIDs.
+    """
+
+    def post(self, request, quiz_id: uuid.UUID):
+        """Handle POST: duplicate the quiz and redirect to the new quiz's detail page."""
+        source = get_object_or_404(Quiz, pk=quiz_id)
+
+        new_quiz = Quiz.objects.create(
+            title=f"Copy of {source.title}",
+            description=source.description,
+            questions_shown=source.questions_shown,
+            passing_score=source.passing_score,
+            created_by=request.user,
+            is_locked=False,
+        )
+
+        for question in source.questions.prefetch_related("answers").order_by("order"):
+            new_question = Question.objects.create(
+                quiz=new_quiz,
+                text=question.text,
+                question_type=question.question_type,
+                order=question.order,
+            )
+            for answer in question.answers.order_by("order"):
+                Answer.objects.create(
+                    question=new_question,
+                    text=answer.text,
+                    is_correct=answer.is_correct,
+                    order=answer.order,
+                )
+
+        messages.success(request, f"Quiz duplicated as '{new_quiz.title}'.")
+        return redirect("admin-panel:quiz-detail", quiz_id=new_quiz.pk)
+
+
 class AdminQuizDeleteView(AdminRequiredMixin, View):
     """Delete a quiz and all its associated data.
 

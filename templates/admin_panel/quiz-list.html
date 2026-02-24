@@ -42,6 +42,12 @@
             <td class="text-nowrap">
               <a href="{% url 'admin-panel:quiz-detail' quiz_id=quiz.pk %}"
                  class="btn btn-sm btn-outline-secondary">View</a>
+              <form method="post"
+                    action="{% url 'admin-panel:quiz-duplicate' quiz_id=quiz.pk %}"
+                    class="d-inline ms-1">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-primary">Duplicate</button>
+              </form>
               <button type="button"
                       class="btn btn-sm btn-outline-danger ms-1"
                       data-bs-toggle="modal"
