@@ -8,7 +8,7 @@ After=network.target
 [Service]
 User={{ juiceshop_user }}
 WorkingDirectory={{ juiceshop_dir }}
-ExecStart=/usr/bin/node {{ juiceshop_dir }}/app.js
+ExecStart=/usr/bin/node {{ juiceshop_dir }}/build/app.js
 Environment=NODE_ENV=production
 Environment=PORT={{ juiceshop_internal_port }}
 Restart=on-failure

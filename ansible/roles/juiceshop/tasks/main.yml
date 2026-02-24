@@ -84,7 +84,7 @@
     remote_src: true
     extra_opts:
       - "--strip-components=1"
-    creates: "{{ juiceshop_dir }}/app.js"
+    creates: "{{ juiceshop_dir }}/build/app.js"
 
 - name: Ensure Juice Shop files are owned by {{ juiceshop_user }}
   ansible.builtin.file:

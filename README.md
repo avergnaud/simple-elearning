@@ -36,3 +36,9 @@ All other traffic (in and out) is denied by default. Notable blocked ports: Post
 Both IPv4 and IPv6 are covered — UFW applies each rule to both stacks automatically.
 
 Check status: `sudo ufw status`
+
+# juice shop
+
+systemctl start juiceshop
+# verify: ss -tlnp | grep 3001
+# then open https://appsec.cc:3000
