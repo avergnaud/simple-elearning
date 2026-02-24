@@ -1,0 +1,6 @@
+---
+# Triggered when the systemd unit file changes — ensures systemd picks up the
+# new unit before the service enable task runs.
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true

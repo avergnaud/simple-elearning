@@ -1,0 +1,18 @@
+# /etc/systemd/system/juiceshop.service
+# Managed by Ansible — do not edit manually.
+
+[Unit]
+Description=OWASP Juice Shop vulnerable web application
+After=network.target
+
+[Service]
+User={{ juiceshop_user }}
+WorkingDirectory={{ juiceshop_dir }}
+ExecStart=/usr/bin/node {{ juiceshop_dir }}/app.js
+Environment=NODE_ENV=production
+Environment=PORT={{ juiceshop_internal_port }}
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

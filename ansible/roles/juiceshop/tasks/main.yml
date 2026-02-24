@@ -1,0 +1,121 @@
+---
+# =============================================================================
+# roles/juiceshop/tasks/main.yml — Install and configure OWASP Juice Shop
+# =============================================================================
+# Juice Shop runs as a dedicated system user on an internal loopback port.
+# Nginx (configured separately in the nginx role) terminates TLS on the
+# external port and reverse-proxies to this internal port.
+#
+# The systemd service is installed but NOT enabled for auto-start — the
+# operator starts and stops it manually via: systemctl start|stop juiceshop
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Node.js 20.x — installed from NodeSource for an explicit, pinned version
+# -----------------------------------------------------------------------------
+
+- name: Create apt keyrings directory if absent
+  ansible.builtin.file:
+    path: /usr/share/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Download NodeSource GPG key
+  ansible.builtin.get_url:
+    url: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+    dest: /usr/share/keyrings/nodesource.asc
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Add NodeSource apt repository for Node.js 20.x
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/nodesource.asc] https://deb.nodesource.com/node_20.x nodistro main"
+    state: present
+    filename: nodesource
+    update_cache: true
+
+- name: Install Node.js 20.x
+  ansible.builtin.apt:
+    name: nodejs
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+# -----------------------------------------------------------------------------
+# System user and installation directory
+# -----------------------------------------------------------------------------
+
+- name: Create dedicated Juice Shop system user (no login shell)
+  ansible.builtin.user:
+    name: "{{ juiceshop_user }}"
+    system: true
+    shell: /usr/sbin/nologin
+    home: "{{ juiceshop_dir }}"
+    create_home: false
+    state: present
+
+- name: Create Juice Shop installation directory
+  ansible.builtin.file:
+    path: "{{ juiceshop_dir }}"
+    state: directory
+    owner: "{{ juiceshop_user }}"
+    group: "{{ juiceshop_user }}"
+    mode: "0755"
+
+# -----------------------------------------------------------------------------
+# Download and extract the pre-built release tarball from GitHub
+# -----------------------------------------------------------------------------
+
+- name: Download Juice Shop release tarball (v{{ juiceshop_version }}, node20, linux x64)
+  ansible.builtin.get_url:
+    url: "https://github.com/juice-shop/juice-shop/releases/download/v{{ juiceshop_version }}/juice-shop-{{ juiceshop_version }}_node20_linux_x64.tgz"
+    dest: "/tmp/juice-shop-{{ juiceshop_version }}.tgz"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Extract Juice Shop tarball into installation directory
+  ansible.builtin.unarchive:
+    src: "/tmp/juice-shop-{{ juiceshop_version }}.tgz"
+    dest: "{{ juiceshop_dir }}"
+    remote_src: true
+    extra_opts:
+      - "--strip-components=1"
+    creates: "{{ juiceshop_dir }}/app.js"
+
+- name: Ensure Juice Shop files are owned by {{ juiceshop_user }}
+  ansible.builtin.file:
+    path: "{{ juiceshop_dir }}"
+    state: directory
+    owner: "{{ juiceshop_user }}"
+    group: "{{ juiceshop_user }}"
+    recurse: true
+
+# -----------------------------------------------------------------------------
+# systemd service unit
+# -----------------------------------------------------------------------------
+
+- name: Deploy Juice Shop systemd service unit
+  ansible.builtin.template:
+    src: juiceshop.service.j2
+    dest: /etc/systemd/system/juiceshop.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload systemd
+
+- name: Flush handlers to apply daemon-reload before enabling the service
+  ansible.builtin.meta: flush_handlers
+
+# enabled: false — the service is NOT started on system boot.
+# The operator manages the service lifecycle manually via SSH:
+#   systemctl start juiceshop   (to expose the lab)
+#   systemctl stop  juiceshop   (to take it down)
+- name: Register Juice Shop service with systemd (disabled — not auto-started)
+  ansible.builtin.systemd:
+    name: juiceshop
+    enabled: false
+    daemon_reload: true

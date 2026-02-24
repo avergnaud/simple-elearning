@@ -61,3 +61,21 @@ gunicorn_bind: "127.0.0.1:8000"
 
 # Human-readable platform name embedded in generated PDF certificates.
 platform_name: "E-Learning Platform"
+
+# ── Juice Shop ────────────────────────────────────────────────────────────────
+
+# GitHub release tag (without the leading "v"). Must match an available
+# pre-built asset: juice-shop-<version>_node20_linux_x64.tgz
+juiceshop_version: "19.1.1"
+
+# Dedicated OS account that owns the Juice Shop files and runs the process.
+juiceshop_user: juiceshop
+
+# Installation directory on disk.
+juiceshop_dir: /opt/juiceshop
+
+# Loopback port that the Node.js process listens on (never exposed externally).
+juiceshop_internal_port: 3001
+
+# External HTTPS port that Nginx exposes to the internet.
+juiceshop_external_port: 3000

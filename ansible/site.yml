@@ -26,6 +26,7 @@
     - role: postgres
     - role: app
     - role: gunicorn
+    - role: juiceshop
     - role: nginx
     - role: ssl
 

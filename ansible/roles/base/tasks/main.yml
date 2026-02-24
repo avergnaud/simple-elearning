@@ -119,6 +119,13 @@
     port: "443"
     proto: tcp
 
+- name: Allow incoming HTTPS on port 3000 (Juice Shop)
+  community.general.ufw:
+    rule: allow
+    direction: in
+    port: "3000"
+    proto: tcp
+
 - name: Allow outgoing SSH (git push/pull to remote repositories)
   community.general.ufw:
     rule: allow
