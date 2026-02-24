@@ -250,6 +250,30 @@ class AdminQuestionEditView(AdminRequiredMixin, FormView):
         return redirect("admin-panel:quiz-detail", quiz_id=self.quiz.pk)
 
 
+class AdminQuizDeleteView(AdminRequiredMixin, View):
+    """Delete a quiz and all its associated data.
+
+    Manually removes enrolments (cascading attempts, attempt_questions, attempt_answers)
+    and questions (cascading answers) before deleting the quiz itself, to satisfy
+    the PROTECT constraints on those foreign keys.
+    """
+
+    def post(self, request, quiz_id: uuid.UUID):
+        """Handle POST: delete the quiz and all related data unconditionally."""
+        from apps.enrolments.models import Enrolment
+
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+        title = quiz.title
+        # 1. Remove enrolments → cascades attempts → attempt_questions → attempt_answers
+        Enrolment.objects.filter(quiz=quiz).delete()
+        # 2. Remove questions → cascades answers
+        quiz.questions.all().delete()
+        # 3. Remove the quiz itself
+        quiz.delete()
+        messages.success(request, f"Quiz '{title}' has been deleted.")
+        return redirect("admin-panel:quiz-list")
+
+
 class AdminImageUploadView(AdminRequiredMixin, FormView):
     """Upload an image and return a Markdown snippet for use in question text."""
 

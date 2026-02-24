@@ -39,9 +39,17 @@
               {% endif %}
             </td>
             <td class="text-muted small">{{ quiz.created_at|date:"d M Y" }}</td>
-            <td>
+            <td class="text-nowrap">
               <a href="{% url 'admin-panel:quiz-detail' quiz_id=quiz.pk %}"
                  class="btn btn-sm btn-outline-secondary">View</a>
+              <button type="button"
+                      class="btn btn-sm btn-outline-danger ms-1"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal"
+                      data-quiz-title="{{ quiz.title }}"
+                      data-delete-url="{% url 'admin-panel:quiz-delete' quiz_id=quiz.pk %}">
+                Delete
+              </button>
             </td>
           </tr>
         {% endfor %}
@@ -51,4 +59,37 @@
 {% else %}
   <div class="alert alert-info">No quizzes yet. <a href="{% url 'admin-panel:quiz-create' %}">Create the first one.</a></div>
 {% endif %}
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Quiz</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete <strong id="deleteQuizTitle"></strong>?</p>
+        <p class="text-danger small mb-0">This will permanently delete the quiz, all its questions, and all student enrolments and attempts. This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteForm" method="post" action="">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.getElementById('deleteModal').addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    document.getElementById('deleteQuizTitle').textContent = button.dataset.quizTitle;
+    document.getElementById('deleteForm').action = button.dataset.deleteUrl;
+  });
+</script>
 {% endblock %}

@@ -12,6 +12,7 @@ urlpatterns = [
     path("quizzes/", views.AdminQuizListView.as_view(), name="quiz-list"),
     path("quizzes/create/", views.AdminQuizCreateView.as_view(), name="quiz-create"),
     path("quizzes/<uuid:quiz_id>/", views.AdminQuizDetailView.as_view(), name="quiz-detail"),
+    path("quizzes/<uuid:quiz_id>/delete/", views.AdminQuizDeleteView.as_view(), name="quiz-delete"),
     path(
         "quizzes/<uuid:quiz_id>/questions/add/",
         views.AdminQuestionAddView.as_view(),
