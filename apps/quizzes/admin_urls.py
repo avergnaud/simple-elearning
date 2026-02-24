@@ -12,6 +12,7 @@ urlpatterns = [
     path("quizzes/", views.AdminQuizListView.as_view(), name="quiz-list"),
     path("quizzes/create/", views.AdminQuizCreateView.as_view(), name="quiz-create"),
     path("quizzes/<uuid:quiz_id>/", views.AdminQuizDetailView.as_view(), name="quiz-detail"),
+    path("quizzes/<uuid:quiz_id>/edit/", views.AdminQuizEditTitleView.as_view(), name="quiz-edit"),
     path("quizzes/<uuid:quiz_id>/duplicate/", views.AdminQuizDuplicateView.as_view(), name="quiz-duplicate"),
     path("quizzes/<uuid:quiz_id>/delete/", views.AdminQuizDeleteView.as_view(), name="quiz-delete"),
     path(

@@ -30,6 +30,14 @@ class QuizCreateForm(forms.ModelForm):
         return value
 
 
+class QuizEditTitleForm(forms.ModelForm):
+    """Form for editing the title of an existing quiz."""
+
+    class Meta:
+        model = Quiz
+        fields = ["title"]
+
+
 class QuestionAddForm(forms.ModelForm):
     """Form for adding a question with its four answers to a quiz.
 

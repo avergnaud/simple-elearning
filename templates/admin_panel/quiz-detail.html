@@ -13,7 +13,12 @@
 
 <div class="d-flex justify-content-between align-items-start mb-3">
   <div>
-    <h1 class="h2 mb-1">{{ quiz.title }}</h1>
+    <form method="post" action="{% url 'admin-panel:quiz-edit' quiz_id=quiz.pk %}" class="d-flex align-items-center gap-2 mb-1">
+      {% csrf_token %}
+      <input type="text" name="title" value="{{ quiz.title }}" class="form-control form-control-lg fw-bold"
+             style="font-size:1.5rem; max-width:32rem;" required maxlength="200">
+      <button type="submit" class="btn btn-outline-secondary btn-sm">Save</button>
+    </form>
     <div class="text-muted small">
       {{ quiz.question_count }} question{{ quiz.question_count|pluralize }} in pool &bull;
       {{ quiz.questions_shown }} shown per attempt &bull;

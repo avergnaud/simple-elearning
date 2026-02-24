@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import DetailView, FormView, ListView, TemplateView, View
 
 from apps.accounts.mixins import AdminRequiredMixin
-from apps.quizzes.forms import ImageUploadForm, QuestionAddForm, QuizCreateForm
+from apps.quizzes.forms import ImageUploadForm, QuestionAddForm, QuizCreateForm, QuizEditTitleForm
 from apps.quizzes.models import Answer, Question, Quiz
 
 # ---------------------------------------------------------------------------
@@ -132,6 +132,34 @@ class AdminQuizDetailView(AdminRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["questions"] = self.object.questions.prefetch_related("answers").order_by("order")
         return context
+
+
+class AdminQuizEditTitleView(AdminRequiredMixin, FormView):
+    """Handle POST requests to update a quiz's title."""
+
+    form_class = QuizEditTitleForm
+
+    def setup(self, request, *args, **kwargs):
+        """Resolve the quiz from the URL parameter."""
+        super().setup(request, *args, **kwargs)
+        self.quiz = get_object_or_404(Quiz, pk=kwargs["quiz_id"])
+
+    def get_form_kwargs(self):
+        """Bind the form to the existing quiz instance."""
+        kwargs = super().get_form_kwargs()
+        kwargs["instance"] = self.quiz
+        return kwargs
+
+    def form_valid(self, form):
+        """Save the updated title and redirect back to the detail page."""
+        form.save()
+        messages.success(self.request, "Quiz title updated.")
+        return redirect("admin-panel:quiz-detail", quiz_id=self.quiz.pk)
+
+    def form_invalid(self, form):
+        """Redirect back with an error message if validation fails."""
+        messages.error(self.request, "Invalid title — please try again.")
+        return redirect("admin-panel:quiz-detail", quiz_id=self.quiz.pk)
 
 
 class AdminQuestionAddView(AdminRequiredMixin, FormView):
