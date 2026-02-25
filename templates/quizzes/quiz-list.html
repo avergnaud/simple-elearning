@@ -5,6 +5,9 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1 class="h2">Quiz Catalogue</h1>
+  <a href="{% url 'glossaire-pci-ssf' %}" class="btn btn-outline-secondary btn-sm" target="_blank">
+    Glossaire PCI SSF
+  </a>
 </div>
 
 {% if quiz_list %}

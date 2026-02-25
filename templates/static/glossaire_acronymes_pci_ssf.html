@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossaire des Acronymes PCI SSF</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --pci-blue: #1a3a5c;
+            --pci-accent: #2c7be5;
+            --pci-light: #f0f4f8;
+            --pci-border: #d8e2ef;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--pci-light);
+            color: #344050;
+        }
+        .hero {
+            background: linear-gradient(135deg, var(--pci-blue) 0%, #2a5a8c 100%);
+            color: white;
+            padding: 2.5rem 0 2rem;
+            margin-bottom: 0;
+        }
+        .hero h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+        }
+        .hero .lead {
+            opacity: 0.85;
+            font-size: 1rem;
+        }
+        .stat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 2rem;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.9);
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            border-bottom: 1px solid var(--pci-border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 0.6rem 0;
+        }
+        .letter-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            justify-content: center;
+        }
+        .letter-nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.1rem;
+            height: 2.1rem;
+            border-radius: 0.4rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--pci-blue);
+            background: var(--pci-light);
+            transition: all 0.15s;
+        }
+        .letter-nav a:hover, .letter-nav a.active {
+            background: var(--pci-accent);
+            color: white;
+            transform: translateY(-1px);
+        }
+        .search-box {
+            max-width: 380px;
+        }
+        .search-box input {
+            border: 1px solid var(--pci-border);
+            border-radius: 2rem;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            font-size: 0.9rem;
+            background: var(--pci-light);
+        }
+        .search-box input:focus {
+            background: white;
+            box-shadow: 0 0 0 3px rgba(44,123,229,0.15);
+            border-color: var(--pci-accent);
+        }
+        .search-box .bi-search {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+        .letter-section {
+            scroll-margin-top: 4.5rem;
+        }
+        .letter-header {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--pci-accent);
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .acronym-card {
+            background: white;
+            border: 1px solid var(--pci-border);
+            border-radius: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
+        }
+        .acronym-card:hover {
+            border-color: var(--pci-accent);
+            box-shadow: 0 4px 12px rgba(44,123,229,0.1);
+        }
+        .acronym-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--pci-blue);
+            margin-bottom: 0.1rem;
+        }
+        .acronym-full {
+            color: #64748b;
+            font-size: 0.92rem;
+            margin-bottom: 0.6rem;
+        }
+        .desc-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            margin-bottom: 0.15rem;
+        }
+        .desc-text {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+        .fr-section {
+            background: #f8fafc;
+            border-left: 3px solid var(--pci-accent);
+            padding: 0.6rem 0.9rem;
+            border-radius: 0 0.4rem 0.4rem 0;
+            margin: 0.5rem 0;
+        }
+        .fr-section .fr-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--pci-accent);
+            margin-bottom: 0.1rem;
+        }
+        .ref-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+        }
+        .ref-badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 1rem;
+            font-weight: 500;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #94a3b8;
+            display: none;
+        }
+        .footer {
+            background: var(--pci-blue);
+            color: rgba(255,255,255,0.7);
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            font-size: 0.82rem;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--pci-accent);
+            color: white;
+            border: none;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 200;
+            transition: opacity 0.3s;
+        }
+        .back-to-top.show {
+            display: flex;
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.5rem; }
+            .acronym-card { padding: 1rem; }
+            .letter-nav a { width: 1.8rem; height: 1.8rem; font-size: 0.78rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <div class="hero">
+        <div class="container">
+            <h1><i class="bi bi-shield-lock me-2"></i>Glossaire des Acronymes PCI SSF</h1>
+            <p class="lead mb-3">Glossaire complet des acronymes extraits des documents PCI Software Security Framework</p>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="stat-badge"><i class="bi bi-bookmark"></i> 99 acronymes</span>
+                <span class="stat-badge"><i class="bi bi-file-earmark-text"></i> 3 documents sources</span>
+                <span class="stat-badge"><i class="bi bi-translate"></i> EN / FR</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <div class="sticky-nav">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                <div class="letter-nav">
+                    <a href="#section-A" title="A">A</a>
+                    <a href="#section-B" title="B">B</a>
+                    <a href="#section-C" title="C">C</a>
+                    <a href="#section-D" title="D">D</a>
+                    <a href="#section-E" title="E">E</a>
+                    <a href="#section-F" title="F">F</a>
+                    <a href="#section-G" title="G">G</a>
+                    <a href="#section-H" title="H">H</a>
+                    <a href="#section-I" title="I">I</a>
+                    <a href="#section-J" title="J">J</a>
+                    <a href="#section-K" title="K">K</a>
+                    <a href="#section-M" title="M">M</a>
+                    <a href="#section-N" title="N">N</a>
+                    <a href="#section-O" title="O">O</a>
+                    <a href="#section-P" title="P">P</a>
+                    <a href="#section-R" title="R">R</a>
+                    <a href="#section-S" title="S">S</a>
+                    <a href="#section-T" title="T">T</a>
+                    <a href="#section-U" title="U">U</a>
+                    <a href="#section-V" title="V">V</a>
+                    <a href="#section-X" title="X">X</a>
+                </div>
+                <div class="search-box position-relative">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Rechercher un acronyme...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="container mt-3 mb-2">
+        <div class="d-flex flex-wrap gap-2 align-items-center" style="font-size:0.82rem;">
+            <span class="text-muted fw-semibold">Sources :</span>
+            <span class="badge bg-primary ref-badge">SLC v1.1</span> <span class="text-muted">PCI Secure SLC Standard v1.1</span>
+            <span class="badge bg-success ref-badge">SSS v2.0</span> <span class="text-muted">PCI Secure Software Standard v2.0</span>
+            <span class="badge bg-warning text-dark ref-badge">Formation SSF</span> <span class="text-muted">Formation PCI SSF v1.0</span>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container py-3" id="glossary-content">
+        <div id="noResults" class="no-results">
+            <i class="bi bi-search" style="font-size:2rem;"></i>
+            <p class="mt-2 mb-0">Aucun acronyme trouvé pour cette recherche.</p>
+        </div>
+        <div class="letter-section" id="section-A">
+            <div class="letter-header">A</div>
+            <div class="acronym-card" data-acronym="aes" data-full="advanced encryption standard standard de chiffrement avancé">
+                <div class="acronym-title">AES</div>
+                <div class="acronym-full">Advanced Encryption Standard</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A symmetric block cipher algorithm adopted by NIST as a federal standard for encrypting electronic data. Supports key sizes of 128, 192, and 256 bits.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Standard de chiffrement avancé</div>
+                    <div class="desc-text mb-0">Algorithme de chiffrement symétrique par blocs adopté par le NIST. Utilisé dans PCI SSF pour le chiffrement des données sensibles (clés de 128, 192 ou 256 bits).</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.21, 62</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.44, 62</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="aoc" data-full="attestation of compliance attestation de conformité">
+                <div class="acronym-title">AOC</div>
+                <div class="acronym-full">Attestation of Compliance</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A formal document confirming that an entity has been assessed and found to be in compliance with a PCI standard (e.g., PCI DSS AOC).</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Attestation de conformité</div>
+                    <div class="desc-text mb-0">Document formel confirmant qu'une entité a été évaluée et jugée conforme à une norme PCI.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.35</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="aov" data-full="attestation of validation attestation de validation">
+                <div class="acronym-title">AOV</div>
+                <div class="acronym-full">Attestation of Validation</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A document issued as part of the PCI Secure Software validation process, confirming that payment software has been assessed against the PCI Secure Software Standard.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Attestation de validation</div>
+                    <div class="desc-text mb-0">Document émis dans le cadre du processus de validation PCI Secure Software, confirmant qu'un logiciel de paiement a été évalué selon le standard PCI SSS.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.9, 93</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.14, 26, 29, 30, 32</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="api" data-full="application programming interface interface de programmation applicative">
+                <div class="acronym-title">API</div>
+                <div class="acronym-full">Application Programming Interface</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A set of defined methods and protocols that allow software components to communicate with each other. In PCI SSF context, APIs must be secured against injection, unauthorized access, and data exposure.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Interface de programmation applicative</div>
+                    <div class="desc-text mb-0">Ensemble de méthodes et protocoles permettant aux composants logiciels de communiquer entre eux. Dans le contexte PCI SSF, les API doivent être sécurisées contre l'injection, les accès non autorisés et l'exposition de données.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.50, 81, 90</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.4, 38, 39, 41, 45, 46, 53, 54… (+10)</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-B">
+            <div class="letter-header">B</div>
+            <div class="acronym-card" data-acronym="bsimm" data-full="building security in maturity model modèle de maturité pour la sécurité intégrée">
+                <div class="acronym-title">BSIMM</div>
+                <div class="acronym-full">Building Security In Maturity Model</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A framework for measuring and benchmarking software security initiatives within organizations. Referenced in PCI Secure SLC as a recognized security methodology.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Modèle de maturité pour la sécurité intégrée</div>
+                    <div class="desc-text mb-0">Cadre de référence pour mesurer et comparer les initiatives de sécurité logicielle au sein des organisations. Référencé dans PCI Secure SLC.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.6, 15</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-C">
+            <div class="letter-header">C</div>
+            <div class="acronym-card" data-acronym="cde" data-full="cardholder data environment environnement de données du titulaire de carte">
+                <div class="acronym-title">CDE</div>
+                <div class="acronym-full">Cardholder Data Environment</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The people, processes, and technologies that store, process, or transmit cardholder data or sensitive authentication data, including any connected system components.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Environnement de données du titulaire de carte</div>
+                    <div class="desc-text mb-0">Ensemble des personnes, processus et technologies qui stockent, traitent ou transmettent les données du titulaire de carte ou les données d'authentification sensibles.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.69</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ceo" data-full="chief executive officer directeur général">
+                <div class="acronym-title">CEO</div>
+                <div class="acronym-full">Chief Executive Officer</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The highest-ranking executive in an organization. Referenced in PCI SLC as a key stakeholder in executive management accountability for software security.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Directeur général</div>
+                    <div class="desc-text mb-0">Plus haut dirigeant d'une organisation. Cité dans PCI SLC comme partie prenante clé pour la responsabilité de la sécurité logicielle.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.11</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cfo" data-full="chief financial officer directeur financier">
+                <div class="acronym-title">CFO</div>
+                <div class="acronym-full">Chief Financial Officer</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The senior executive responsible for managing financial actions. Referenced in PCI SLC regarding executive accountability.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Directeur financier</div>
+                    <div class="desc-text mb-0">Cadre dirigeant responsable de la gestion financière. Mentionné dans PCI SLC au titre de la responsabilité de la direction.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.11</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="chd" data-full="cardholder data données du titulaire de carte">
+                <div class="acronym-title">CHD</div>
+                <div class="acronym-full">Cardholder Data</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Information contained on a payment card, including the primary account number (PAN), cardholder name, expiration date, and service code.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Données du titulaire de carte</div>
+                    <div class="desc-text mb-0">Informations contenues sur une carte de paiement, notamment le PAN, le nom du titulaire, la date d'expiration et le code de service.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.14</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ci/cd" data-full="continuous integration / continuous deployment intégration continue / déploiement continu">
+                <div class="acronym-title">CI/CD</div>
+                <div class="acronym-full">Continuous Integration / Continuous Deployment</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Software development practices that automate the building, testing, and deployment of code. In PCI SSF, CI/CD pipelines must include security scanning (SAST, DAST) and integrity checks.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Intégration continue / Déploiement continu</div>
+                    <div class="desc-text mb-0">Pratiques de développement automatisant la construction, les tests et le déploiement du code. Dans PCI SSF, les pipelines CI/CD doivent inclure des analyses de sécurité.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.41, 46, 73, 84</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cio" data-full="chief information officer directeur des systèmes d'information">
+                <div class="acronym-title">CIO</div>
+                <div class="acronym-full">Chief Information Officer</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The executive responsible for IT strategy and systems. Referenced in PCI SLC as part of executive management oversight.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Directeur des systèmes d'information</div>
+                    <div class="desc-text mb-0">Cadre dirigeant responsable de la stratégie IT. Cité dans PCI SLC comme partie prenante de la gouvernance sécurité.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.11</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ciso" data-full="chief information security officer responsable de la sécurité des systèmes d'information (rssi)">
+                <div class="acronym-title">CISO</div>
+                <div class="acronym-full">Chief Information Security Officer</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The executive responsible for an organization's information security strategy and implementation.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Responsable de la sécurité des systèmes d'information (RSSI)</div>
+                    <div class="desc-text mb-0">Cadre dirigeant responsable de la stratégie et de la mise en œuvre de la sécurité de l'information dans une organisation.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.53</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cli" data-full="command-line interface interface en ligne de commande">
+                <div class="acronym-title">CLI</div>
+                <div class="acronym-full">Command-Line Interface</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A text-based interface for interacting with software. In PCI SSF context, CLI tools can be used for secure update mechanisms.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Interface en ligne de commande</div>
+                    <div class="desc-text mb-0">Interface textuelle d'interaction avec un logiciel. Dans le contexte PCI SSF, les outils CLI peuvent être utilisés pour les mécanismes de mise à jour sécurisée.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.74</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cmdb" data-full="configuration management database base de données de gestion de configuration">
+                <div class="acronym-title">CMDB</div>
+                <div class="acronym-full">Configuration Management Database</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A database that stores information about hardware and software assets. Used in PCI SSF for maintaining inventories of critical assets.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Base de données de gestion de configuration</div>
+                    <div class="desc-text mb-0">Base de données stockant les informations sur les actifs matériels et logiciels. Utilisée dans PCI SSF pour l'inventaire des actifs critiques.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.40</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cots" data-full="commercial off-the-shelf logiciel commercial sur étagère">
+                <div class="acronym-title">COTS</div>
+                <div class="acronym-full">Commercial Off-The-Shelf</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Software products that are commercially available and ready to use without custom development. PCI SSS addresses testing requirements for COTS components.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Logiciel commercial sur étagère</div>
+                    <div class="desc-text mb-0">Produits logiciels disponibles dans le commerce et utilisables sans développement spécifique. PCI SSS traite des exigences de test pour les composants COTS.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.59</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cro" data-full="chief risk officer directeur des risques">
+                <div class="acronym-title">CRO</div>
+                <div class="acronym-full">Chief Risk Officer</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The executive responsible for identifying and mitigating risks. Referenced in PCI SLC regarding executive accountability for security risk management.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Directeur des risques</div>
+                    <div class="desc-text mb-0">Cadre dirigeant responsable de l'identification et de l'atténuation des risques. Mentionné dans PCI SLC concernant la gouvernance des risques sécurité.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.11</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="csp" data-full="content security policy politique de sécurité du contenu">
+                <div class="acronym-title">CSP</div>
+                <div class="acronym-full">Content Security Policy</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An HTTP response header that helps mitigate cross-site scripting (XSS) and other code injection attacks by specifying which content sources are allowed.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Politique de sécurité du contenu</div>
+                    <div class="desc-text mb-0">En-tête de réponse HTTP qui permet d'atténuer les attaques XSS et autres injections de code en spécifiant les sources de contenu autorisées.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.54</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cto" data-full="chief technology officer directeur technique">
+                <div class="acronym-title">CTO</div>
+                <div class="acronym-full">Chief Technology Officer</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The executive responsible for technology strategy and development. Referenced in PCI SLC as part of executive management accountability.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Directeur technique</div>
+                    <div class="desc-text mb-0">Cadre dirigeant responsable de la stratégie technologique. Cité dans PCI SLC au titre de la responsabilité de la direction.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.11</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cve" data-full="common vulnerabilities and exposures vulnérabilités et expositions communes">
+                <div class="acronym-title">CVE</div>
+                <div class="acronym-full">Common Vulnerabilities and Exposures</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A standardized naming system for publicly known cybersecurity vulnerabilities. PCI SSF requires monitoring CVEs for third-party components.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Vulnérabilités et expositions communes</div>
+                    <div class="desc-text mb-0">Système normalisé de nommage des vulnérabilités de cybersécurité connues publiquement. PCI SSF exige la surveillance des CVE pour les composants tiers.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.41, 59, 64, 71, 72, 73</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="cvss" data-full="common vulnerability scoring system système commun de notation des vulnérabilités">
+                <div class="acronym-title">CVSS</div>
+                <div class="acronym-full">Common Vulnerability Scoring System</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A standardized framework for rating the severity of security vulnerabilities on a scale from 0.0 to 10.0. Used in PCI SSF to prioritize vulnerability remediation.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Système commun de notation des vulnérabilités</div>
+                    <div class="desc-text mb-0">Cadre normalisé de notation de la sévérité des vulnérabilités de sécurité (échelle de 0.0 à 10.0). Utilisé dans PCI SSF pour prioriser la remédiation.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.71, 72</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-D">
+            <div class="letter-header">D</div>
+            <div class="acronym-card" data-acronym="dast" data-full="dynamic application security testing test dynamique de sécurité applicative">
+                <div class="acronym-title">DAST</div>
+                <div class="acronym-full">Dynamic Application Security Testing</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A testing method that analyzes a running application to find security vulnerabilities by simulating attacks from the outside.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Test dynamique de sécurité applicative</div>
+                    <div class="desc-text mb-0">Méthode de test qui analyse une application en cours d'exécution pour détecter les vulnérabilités en simulant des attaques externes.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.71, 72</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="dek" data-full="data encryption key clé de chiffrement des données">
+                <div class="acronym-title">DEK</div>
+                <div class="acronym-full">Data Encryption Key</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A cryptographic key used to encrypt and decrypt data. In PCI SSS, DEKs must be protected and managed according to defined key management procedures.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Clé de chiffrement des données</div>
+                    <div class="desc-text mb-0">Clé cryptographique utilisée pour chiffrer et déchiffrer les données. Dans PCI SSS, les DEK doivent être protégées et gérées selon des procédures définies.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.20, 21</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="dfd" data-full="data flow diagram diagramme de flux de données">
+                <div class="acronym-title">DFD</div>
+                <div class="acronym-full">Data Flow Diagram</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A graphical representation of how data moves through an information system. Required in PCI SSF for identifying sensitive data flows and attack surfaces.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Diagramme de flux de données</div>
+                    <div class="desc-text mb-0">Représentation graphique de la circulation des données dans un système d'information. Requis dans PCI SSF pour identifier les flux de données sensibles.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.38</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="drng" data-full="deterministic random-number generator générateur de nombres aléatoires déterministe">
+                <div class="acronym-title">DRNG</div>
+                <div class="acronym-full">Deterministic Random-Number Generator</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An algorithm that generates a sequence of numbers using a deterministic mathematical formula, seeded by an entropy source. Must be properly seeded by an NDRNG per PCI SSS.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Générateur de nombres aléatoires déterministe</div>
+                    <div class="desc-text mb-0">Algorithme qui génère une séquence de nombres à partir d'une formule déterministe, initialisé par une source d'entropie. Doit être correctement initialisé selon PCI SSS.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.58, 59, 60, 90, 91</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="dss" data-full="data security standard norme de sécurité des données">
+                <div class="acronym-title">DSS</div>
+                <div class="acronym-full">Data Security Standard</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Refers to PCI DSS (Payment Card Industry Data Security Standard), the primary standard governing the security of cardholder data environments.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Norme de sécurité des données</div>
+                    <div class="desc-text mb-0">Désigne PCI DSS, la norme principale régissant la sécurité des environnements de données des titulaires de cartes de paiement.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.10, 17, 69, 70, 90, 91</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.4, 7, 21, 22, 57, 68</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="dukpt" data-full="derived unique key per transaction clé unique dérivée par transaction">
+                <div class="acronym-title">DUKPT</div>
+                <div class="acronym-full">Derived Unique Key Per Transaction</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A key management scheme in which a unique encryption key is derived for each transaction, providing enhanced security for payment data.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Clé unique dérivée par transaction</div>
+                    <div class="desc-text mb-0">Schéma de gestion de clés dans lequel une clé de chiffrement unique est dérivée pour chaque transaction, renforçant la sécurité des données de paiement.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.21</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-E">
+            <div class="letter-header">E</div>
+            <div class="acronym-card" data-acronym="ecc" data-full="elliptic curve cryptography cryptographie sur courbes elliptiques">
+                <div class="acronym-title">ECC</div>
+                <div class="acronym-full">Elliptic Curve Cryptography</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A public-key cryptography approach based on elliptic curves, offering equivalent security to RSA with smaller key sizes. Approved for use in PCI SSF (≥224 bits).</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Cryptographie sur courbes elliptiques</div>
+                    <div class="desc-text mb-0">Approche de cryptographie à clé publique basée sur les courbes elliptiques, offrant une sécurité équivalente au RSA avec des clés plus courtes (≥224 bits dans PCI SSF).</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.44, 49, 59, 63, 65</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ecdsa" data-full="elliptic curve digital signature algorithm algorithme de signature numérique sur courbe elliptique">
+                <div class="acronym-title">ECDSA</div>
+                <div class="acronym-full">Elliptic Curve Digital Signature Algorithm</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A digital signature algorithm that uses elliptic curve cryptography. Approved in PCI SSF for signing and verification purposes.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Algorithme de signature numérique sur courbe elliptique</div>
+                    <div class="desc-text mb-0">Algorithme de signature numérique utilisant la cryptographie sur courbes elliptiques. Approuvé dans PCI SSF pour la signature et la vérification.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.65</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-F">
+            <div class="letter-header">F</div>
+            <div class="acronym-card" data-acronym="fdna" data-full="functional dependency network analysis analyse de réseau de dépendances fonctionnelles">
+                <div class="acronym-title">FDNA</div>
+                <div class="acronym-full">Functional Dependency Network Analysis</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A risk assessment methodology that analyzes dependencies between functional components to identify potential failure points and their impacts.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Analyse de réseau de dépendances fonctionnelles</div>
+                    <div class="desc-text mb-0">Méthodologie d'évaluation des risques qui analyse les dépendances entre composants fonctionnels pour identifier les points de défaillance potentiels.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.19</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="fido2" data-full="fast identity online 2 identité rapide en ligne version 2">
+                <div class="acronym-title">FIDO2</div>
+                <div class="acronym-full">Fast Identity Online 2</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An authentication standard that enables passwordless and multi-factor authentication using public-key cryptography. Referenced in PCI SSF as an accepted authentication method.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Identité rapide en ligne version 2</div>
+                    <div class="desc-text mb-0">Standard d'authentification permettant l'authentification sans mot de passe et multi-facteur via cryptographie à clé publique. Référencé dans PCI SSF.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.57</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="fips" data-full="federal information processing standards normes fédérales de traitement de l'information">
+                <div class="acronym-title">FIPS</div>
+                <div class="acronym-full">Federal Information Processing Standards</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Standards developed by NIST for use in computer systems by U.S. federal government. FIPS 140-2/3 is referenced in PCI SSS for cryptographic module validation.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Normes fédérales de traitement de l'information</div>
+                    <div class="desc-text mb-0">Normes développées par le NIST pour les systèmes informatiques du gouvernement américain. FIPS 140-2/3 est référencé dans PCI SSS pour la validation des modules cryptographiques.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.42</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.39, 52, 61, 64, 65</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ftp" data-full="file transfer protocol protocole de transfert de fichiers">
+                <div class="acronym-title">FTP</div>
+                <div class="acronym-full">File Transfer Protocol</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A standard network protocol for transferring files. Considered insecure in PCI SSF; SFTP or other encrypted alternatives must be used instead.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Protocole de transfert de fichiers</div>
+                    <div class="desc-text mb-0">Protocole réseau standard de transfert de fichiers. Considéré comme non sécurisé dans PCI SSF ; SFTP ou d'autres alternatives chiffrées doivent être utilisées.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.56, 60</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-G">
+            <div class="letter-header">G</div>
+            <div class="acronym-card" data-acronym="grc" data-full="governance, risk and compliance gouvernance, risque et conformité">
+                <div class="acronym-title">GRC</div>
+                <div class="acronym-full">Governance, Risk and Compliance</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An integrated approach to organizational governance, enterprise risk management, and regulatory compliance. Referenced in PCI SLC for tracking security activities.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Gouvernance, risque et conformité</div>
+                    <div class="desc-text mb-0">Approche intégrée de la gouvernance organisationnelle, de la gestion des risques et de la conformité réglementaire. Référencée dans PCI SLC pour le suivi des activités de sécurité.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.17</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.40</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-H">
+            <div class="letter-header">H</div>
+            <div class="acronym-card" data-acronym="hmac" data-full="hash-based message authentication code code d'authentification de message basé sur le hachage">
+                <div class="acronym-title">HMAC</div>
+                <div class="acronym-full">Hash-based Message Authentication Code</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A specific type of MAC involving a cryptographic hash function and a secret cryptographic key. Used in PCI SSF for data integrity verification.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Code d'authentification de message basé sur le hachage</div>
+                    <div class="desc-text mb-0">Type spécifique de MAC impliquant une fonction de hachage cryptographique et une clé secrète. Utilisé dans PCI SSF pour la vérification de l'intégrité des données.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.59</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="hsm" data-full="hardware security module module matériel de sécurité">
+                <div class="acronym-title">HSM</div>
+                <div class="acronym-full">Hardware Security Module</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A dedicated cryptographic processor designed for the protection and management of digital keys. PCI SSF requires keys to be stored in HSMs or equivalent secure modules.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Module matériel de sécurité</div>
+                    <div class="desc-text mb-0">Processeur cryptographique dédié à la protection et la gestion des clés numériques. PCI SSF exige le stockage des clés dans des HSM ou modules sécurisés équivalents.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.28, 39, 40, 42, 54, 59, 63, 64… (+1)</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="hsts" data-full="http strict transport security sécurité stricte du transport http">
+                <div class="acronym-title">HSTS</div>
+                <div class="acronym-full">HTTP Strict Transport Security</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A web security mechanism that forces browsers to communicate only over HTTPS. Recommended in PCI SSF for protecting web communications.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Sécurité stricte du transport HTTP</div>
+                    <div class="desc-text mb-0">Mécanisme de sécurité web qui force les navigateurs à communiquer uniquement en HTTPS. Recommandé dans PCI SSF pour protéger les communications web.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.41</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="http" data-full="hypertext transfer protocol protocole de transfert hypertexte">
+                <div class="acronym-title">HTTP</div>
+                <div class="acronym-full">Hypertext Transfer Protocol</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The foundation protocol for data communication on the web. PCI SSS includes specific requirements for HTTP security headers.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Protocole de transfert hypertexte</div>
+                    <div class="desc-text mb-0">Protocole fondamental de communication de données sur le web. PCI SSS inclut des exigences spécifiques pour les en-têtes de sécurité HTTP.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.4, 78, 79, 80, 85</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.41, 43, 56, 60</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="https" data-full="hypertext transfer protocol secure protocole de transfert hypertexte sécurisé">
+                <div class="acronym-title">HTTPS</div>
+                <div class="acronym-full">Hypertext Transfer Protocol Secure</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">HTTP encrypted with TLS/SSL. Mandatory in PCI SSF for any communication involving sensitive data.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Protocole de transfert hypertexte sécurisé</div>
+                    <div class="desc-text mb-0">HTTP chiffré avec TLS/SSL. Obligatoire dans PCI SSF pour toute communication impliquant des données sensibles.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.41, 60, 74</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-I">
+            <div class="letter-header">I</div>
+            <div class="acronym-card" data-acronym="iam" data-full="identity and access management gestion des identités et des accès">
+                <div class="acronym-title">IAM</div>
+                <div class="acronym-full">Identity and Access Management</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A framework of policies and technologies for managing digital identities and controlling access to resources. Critical in PCI SSF for enforcing least privilege.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Gestion des identités et des accès</div>
+                    <div class="desc-text mb-0">Cadre de politiques et technologies pour la gestion des identités numériques et le contrôle des accès aux ressources. Essentiel dans PCI SSF pour le principe du moindre privilège.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.66, 68</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="iso" data-full="international organization for standardization organisation internationale de normalisation">
+                <div class="acronym-title">ISO</div>
+                <div class="acronym-full">International Organization for Standardization</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An international body that develops and publishes standards. Referenced in PCI SLC/SSS for security frameworks (ISO 27034, ISO/IEC 18031).</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Organisation internationale de normalisation</div>
+                    <div class="desc-text mb-0">Organisme international qui développe et publie des normes. Référencé dans PCI SLC/SSS pour les cadres de sécurité (ISO 27034, ISO/IEC 18031).</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.6</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.49, 61, 62, 63</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-J">
+            <div class="letter-header">J</div>
+            <div class="acronym-card" data-acronym="jwt" data-full="json web token jeton web json">
+                <div class="acronym-title">JWT</div>
+                <div class="acronym-full">JSON Web Token</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A compact, URL-safe token format for securely transmitting claims between parties. Used in PCI SSF context for API authentication.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Jeton web JSON</div>
+                    <div class="desc-text mb-0">Format de jeton compact et sécurisé pour la transmission de revendications entre parties. Utilisé dans le contexte PCI SSF pour l'authentification API.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.41, 57</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-K">
+            <div class="letter-header">K</div>
+            <div class="acronym-card" data-acronym="kcv" data-full="key check value valeur de vérification de clé">
+                <div class="acronym-title">KCV</div>
+                <div class="acronym-full">Key Check Value</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A value derived from a cryptographic key used to verify the key's integrity without revealing the key itself.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Valeur de vérification de clé</div>
+                    <div class="desc-text mb-0">Valeur dérivée d'une clé cryptographique utilisée pour vérifier l'intégrité de la clé sans la révéler.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.90</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="kek" data-full="key encrypting key clé de chiffrement de clés">
+                <div class="acronym-title">KEK</div>
+                <div class="acronym-full">Key Encrypting Key</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A cryptographic key used to encrypt other keys for secure storage or transmission. Part of the key hierarchy defined in PCI SSS.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Clé de chiffrement de clés</div>
+                    <div class="desc-text mb-0">Clé cryptographique utilisée pour chiffrer d'autres clés en vue d'un stockage ou d'une transmission sécurisée. Fait partie de la hiérarchie de clés définie dans PCI SSS.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.20</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="kms" data-full="key management system/service système/service de gestion des clés">
+                <div class="acronym-title">KMS</div>
+                <div class="acronym-full">Key Management System/Service</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A system for managing cryptographic keys throughout their lifecycle. PCI SSF requires keys to be stored in KMS solutions (e.g., AWS KMS, Azure Key Vault, GCP KMS).</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Système/service de gestion des clés</div>
+                    <div class="desc-text mb-0">Système de gestion des clés cryptographiques tout au long de leur cycle de vie. PCI SSF exige le stockage des clés dans des solutions KMS (ex. AWS KMS, Azure Key Vault).</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.38, 44, 54, 63</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-M">
+            <div class="letter-header">M</div>
+            <div class="acronym-card" data-acronym="mac" data-full="message authentication code code d'authentification de message">
+                <div class="acronym-title">MAC</div>
+                <div class="acronym-full">Message Authentication Code</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A short piece of information used to authenticate a message and confirm its integrity. Used in PCI SSF for data protection.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Code d'authentification de message</div>
+                    <div class="desc-text mb-0">Information courte utilisée pour authentifier un message et confirmer son intégrité. Utilisé dans PCI SSF pour la protection des données.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.20</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="mfa" data-full="multi-factor authentication authentification multi-facteur">
+                <div class="acronym-title">MFA</div>
+                <div class="acronym-full">Multi-Factor Authentication</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An authentication method requiring two or more independent factors (knowledge, possession, inherence). Mandatory in PCI SSF for access to sensitive resources.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Authentification multi-facteur</div>
+                    <div class="desc-text mb-0">Méthode d'authentification exigeant deux facteurs indépendants ou plus (connaissance, possession, inhérence). Obligatoire dans PCI SSF pour l'accès aux ressources sensibles.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.42, 46, 54, 55, 57, 66, 74, 80</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="mia" data-full="mission impact analysis analyse d'impact sur la mission">
+                <div class="acronym-title">MIA</div>
+                <div class="acronym-full">Mission Impact Analysis</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A methodology for analyzing the potential impact of losing critical capabilities on an organization's mission objectives.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Analyse d'impact sur la mission</div>
+                    <div class="desc-text mb-0">Méthodologie d'analyse de l'impact potentiel de la perte de capacités critiques sur les objectifs de mission d'une organisation.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.19</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="mitm" data-full="man-in-the-middle attaque de l'homme du milieu">
+                <div class="acronym-title">MITM</div>
+                <div class="acronym-full">Man-in-the-Middle</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A type of attack where the attacker secretly intercepts and possibly alters communications between two parties. PCI SSS requires protections against MITM attacks.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Attaque de l'homme du milieu</div>
+                    <div class="desc-text mb-0">Type d'attaque où l'attaquant intercepte secrètement et modifie potentiellement les communications entre deux parties. PCI SSS exige des protections contre les attaques MITM.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.56</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-N">
+            <div class="letter-header">N</div>
+            <div class="acronym-card" data-acronym="ndrng" data-full="non-deterministic random-number generator générateur de nombres aléatoires non déterministe">
+                <div class="acronym-title">NDRNG</div>
+                <div class="acronym-full">Non-Deterministic Random-Number Generator</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A random number generator that uses a physical entropy source to produce truly random values. Required in PCI SSS for seeding DRNGs.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Générateur de nombres aléatoires non déterministe</div>
+                    <div class="desc-text mb-0">Générateur de nombres aléatoires utilisant une source physique d'entropie pour produire des valeurs réellement aléatoires. Requis dans PCI SSS pour initialiser les DRNG.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.59</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="nfc" data-full="near-field communication communication en champ proche">
+                <div class="acronym-title">NFC</div>
+                <div class="acronym-full">Near-Field Communication</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A short-range wireless communication technology used in contactless payment and mobile payment solutions.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Communication en champ proche</div>
+                    <div class="desc-text mb-0">Technologie de communication sans fil à courte portée utilisée dans les paiements sans contact et les solutions de paiement mobile.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.4</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="nist" data-full="national institute of standards and technology institut national des normes et de la technologie">
+                <div class="acronym-title">NIST</div>
+                <div class="acronym-full">National Institute of Standards and Technology</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A U.S. federal agency that develops technology standards and guidelines. PCI SLC/SSS references NIST publications extensively for cryptography and security practices.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Institut national des normes et de la technologie</div>
+                    <div class="desc-text mb-0">Agence fédérale américaine qui développe des normes et lignes directrices technologiques. PCI SLC/SSS référence abondamment les publications du NIST pour la cryptographie et la sécurité.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.6, 15</span> <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.58, 59, 92, 94</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.49, 57, 61, 62, 63, 64, 65</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ntp" data-full="network time protocol protocole de temps réseau">
+                <div class="acronym-title">NTP</div>
+                <div class="acronym-full">Network Time Protocol</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A protocol for synchronizing clocks of networked devices. Required in PCI SSF for accurate timestamp logging in audit trails.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Protocole de temps réseau</div>
+                    <div class="desc-text mb-0">Protocole de synchronisation des horloges des équipements en réseau. Requis dans PCI SSF pour l'horodatage précis des journaux d'audit.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.67</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="nvd" data-full="national vulnerability database base nationale de données de vulnérabilités">
+                <div class="acronym-title">NVD</div>
+                <div class="acronym-full">National Vulnerability Database</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A U.S. government repository of vulnerability data, built upon the CVE system. Used in PCI SSF for vulnerability monitoring.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Base nationale de données de vulnérabilités</div>
+                    <div class="desc-text mb-0">Base de données gouvernementale américaine des vulnérabilités, basée sur le système CVE. Utilisée dans PCI SSF pour la surveillance des vulnérabilités.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.41, 71, 73</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-O">
+            <div class="letter-header">O</div>
+            <div class="acronym-card" data-acronym="os" data-full="operating system système d'exploitation">
+                <div class="acronym-title">OS</div>
+                <div class="acronym-full">Operating System</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The system software that manages hardware and software resources. PCI SSS requires software to be compatible with supported OS versions.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Système d'exploitation</div>
+                    <div class="desc-text mb-0">Logiciel système qui gère les ressources matérielles et logicielles. PCI SSS exige la compatibilité avec les versions de SE supportées.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.91</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.28, 29, 30, 54, 72, 73</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="owasp" data-full="open web application security project / open worldwide application security project projet ouvert mondial de sécurité des applications">
+                <div class="acronym-title">OWASP</div>
+                <div class="acronym-full">Open Web Application Security Project / Open Worldwide Application Security Project</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A nonprofit foundation working to improve software security. Its resources (OWASP Top 10, OpenSAMM, Threat Modeling) are extensively referenced in PCI SLC/SSS.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Projet ouvert mondial de sécurité des applications</div>
+                    <div class="desc-text mb-0">Fondation à but non lucratif œuvrant pour l'amélioration de la sécurité logicielle. Ses ressources (OWASP Top 10, OpenSAMM) sont largement référencées dans PCI SLC/SSS.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.6, 15</span> <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.81, 85</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.53, 72</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-P">
+            <div class="letter-header">P</div>
+            <div class="acronym-card" data-acronym="pa-dss" data-full="payment application data security standard norme de sécurité des données des applications de paiement">
+                <div class="acronym-title">PA-DSS</div>
+                <div class="acronym-full">Payment Application Data Security Standard</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The former PCI standard for payment application security, now superseded by the PCI Software Security Framework (SSF). No new PA-DSS validations are accepted.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Norme de sécurité des données des applications de paiement</div>
+                    <div class="desc-text mb-0">Ancienne norme PCI pour la sécurité des applications de paiement, désormais remplacée par le PCI Software Security Framework (SSF).</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.20, 21</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="pan" data-full="primary account number numéro de compte principal">
+                <div class="acronym-title">PAN</div>
+                <div class="acronym-full">Primary Account Number</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The unique payment card number (typically 16 digits) that identifies the card issuer and cardholder account. PCI SSS requires PAN to be protected from unauthorized disclosure.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Numéro de compte principal</div>
+                    <div class="desc-text mb-0">Numéro unique de carte de paiement (généralement 16 chiffres) identifiant l'émetteur et le compte du titulaire. PCI SSS exige la protection du PAN contre toute divulgation.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.70, 91</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.38, 40, 47, 49, 52, 66, 77, 80… (+2)</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="pbkdf2" data-full="password-based key derivation function 2 fonction de dérivation de clé basée sur mot de passe version 2">
+                <div class="acronym-title">PBKDF2</div>
+                <div class="acronym-full">Password-Based Key Derivation Function 2</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A key derivation function that applies a pseudorandom function to a password along with a salt value. Recommended in PCI SSF for secure password storage.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Fonction de dérivation de clé basée sur mot de passe version 2</div>
+                    <div class="desc-text mb-0">Fonction de dérivation de clé appliquant une fonction pseudo-aléatoire à un mot de passe avec un sel. Recommandée dans PCI SSF pour le stockage sécurisé des mots de passe.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.62</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="phi" data-full="protected health information information de santé protégée">
+                <div class="acronym-title">PHI</div>
+                <div class="acronym-full">Protected Health Information</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Health information that can be linked to an individual. Referenced in PCI SLC as an example of sensitive data that may coexist with cardholder data.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Information de santé protégée</div>
+                    <div class="desc-text mb-0">Information de santé pouvant être reliée à un individu. Mentionnée dans PCI SLC comme exemple de données sensibles pouvant coexister avec les données de carte.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.14</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="pii" data-full="personally identifiable information informations personnelles identifiables">
+                <div class="acronym-title">PII</div>
+                <div class="acronym-full">Personally Identifiable Information</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Information that can be used to identify an individual. Referenced in PCI SLC as a type of sensitive data requiring protection alongside cardholder data.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Informations personnelles identifiables</div>
+                    <div class="desc-text mb-0">Informations permettant d'identifier un individu. Mentionnées dans PCI SLC comme type de données sensibles nécessitant une protection en parallèle des données de carte.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.14</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="pin" data-full="personal identification number numéro d'identification personnel">
+                <div class="acronym-title">PIN</div>
+                <div class="acronym-full">Personal Identification Number</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A numeric code used to authenticate a cardholder. PCI PTS POI devices handle PIN entry, and PCI SSS addresses software interactions with PIN data.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Numéro d'identification personnel</div>
+                    <div class="desc-text mb-0">Code numérique utilisé pour authentifier un titulaire de carte. Les dispositifs PCI PTS POI gèrent la saisie du PIN.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.6, 71, 92</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.38</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="pki" data-full="public key infrastructure infrastructure à clé publique">
+                <div class="acronym-title">PKI</div>
+                <div class="acronym-full">Public Key Infrastructure</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A framework for managing digital certificates and public-key encryption. Used in PCI SSF for managing certificates and ensuring secure communications.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Infrastructure à clé publique</div>
+                    <div class="desc-text mb-0">Cadre de gestion des certificats numériques et du chiffrement à clé publique. Utilisée dans PCI SSF pour la gestion des certificats et les communications sécurisées.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.61</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="poi" data-full="point of interaction point d'interaction">
+                <div class="acronym-title">POI</div>
+                <div class="acronym-full">Point of Interaction</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A device at which a cardholder interacts with a payment system to initiate a transaction (e.g., a terminal). PCI PTS POI standards govern these devices.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Point d'interaction</div>
+                    <div class="desc-text mb-0">Dispositif auquel un titulaire de carte interagit avec un système de paiement pour initier une transaction (ex. terminal). Les normes PCI PTS POI régissent ces dispositifs.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.4, 6, 42, 71, 72, 73, 74, 75… (+2)</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="prng" data-full="pseudo-random number generator générateur de nombres pseudo-aléatoires">
+                <div class="acronym-title">PRNG</div>
+                <div class="acronym-full">Pseudo-Random Number Generator</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An algorithm that generates a sequence of numbers approximating the properties of random numbers. Also referred to as DRNG in PCI SSS.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Générateur de nombres pseudo-aléatoires</div>
+                    <div class="desc-text mb-0">Algorithme générant une séquence de nombres approximant les propriétés des nombres aléatoires. Également appelé DRNG dans PCI SSS.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.90</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="pts" data-full="pin transaction security sécurité des transactions pin">
+                <div class="acronym-title">PTS</div>
+                <div class="acronym-full">PIN Transaction Security</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A PCI standard that addresses the security requirements for devices that capture PINs and manage payment transactions at the point of interaction.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Sécurité des transactions PIN</div>
+                    <div class="desc-text mb-0">Norme PCI qui traite des exigences de sécurité pour les dispositifs capturant les PIN et gérant les transactions de paiement au point d'interaction.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.4, 6, 42, 71, 72, 73, 74, 75… (+2)</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-R">
+            <div class="letter-header">R</div>
+            <div class="acronym-card" data-acronym="rbac" data-full="role-based access control contrôle d'accès basé sur les rôles">
+                <div class="acronym-title">RBAC</div>
+                <div class="acronym-full">Role-Based Access Control</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An access control model that assigns permissions to roles rather than individual users. Required in PCI SSF for implementing least-privilege access.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Contrôle d'accès basé sur les rôles</div>
+                    <div class="desc-text mb-0">Modèle de contrôle d'accès qui attribue les permissions à des rôles plutôt qu'à des utilisateurs individuels. Requis dans PCI SSF pour le moindre privilège.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.38, 39, 43, 45, 46, 49, 54, 56… (+4)</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="rgpd" data-full="règlement général sur la protection des données (gdpr) règlement général sur la protection des données">
+                <div class="acronym-title">RGPD</div>
+                <div class="acronym-full">Règlement Général sur la Protection des Données (GDPR)</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The European Union's General Data Protection Regulation. Referenced alongside PCI DSS as complementary regulatory requirements for data protection.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Règlement Général sur la Protection des Données</div>
+                    <div class="desc-text mb-0">Règlement européen sur la protection des données personnelles. Mentionné en complément de PCI DSS comme exigence réglementaire complémentaire.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.7</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="rng" data-full="random number generator générateur de nombres aléatoires">
+                <div class="acronym-title">RNG</div>
+                <div class="acronym-full">Random Number Generator</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A device or algorithm that generates a sequence of numbers with no discernible pattern. PCI SSS requires that software not implement its own RNG but use validated ones.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Générateur de nombres aléatoires</div>
+                    <div class="desc-text mb-0">Dispositif ou algorithme générant une séquence de nombres sans motif discernable. PCI SSS exige l'utilisation de RNG validés et non de RNG propriétaires.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.58, 59, 60, 76, 90, 91</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.61, 63, 64</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="roc" data-full="report on compliance rapport de conformité">
+                <div class="acronym-title">ROC</div>
+                <div class="acronym-full">Report on Compliance</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A detailed report produced by a Qualified Security Assessor documenting the results of a PCI compliance assessment.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Rapport de conformité</div>
+                    <div class="desc-text mb-0">Rapport détaillé produit par un évaluateur de sécurité qualifié documentant les résultats d'une évaluation de conformité PCI.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.10</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.35</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="rov" data-full="report on validation rapport de validation">
+                <div class="acronym-title">ROV</div>
+                <div class="acronym-full">Report on Validation</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A detailed report documenting the findings from a PCI Secure Software assessment, prepared by the assessor for the software vendor.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Rapport de validation</div>
+                    <div class="desc-text mb-0">Rapport détaillé documentant les conclusions d'une évaluation PCI Secure Software, préparé par l'évaluateur pour le fournisseur de logiciel.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.9, 93</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.26, 29, 30, 32, 33</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="rsa" data-full="rivest–shamir–adleman rivest–shamir–adleman">
+                <div class="acronym-title">RSA</div>
+                <div class="acronym-full">Rivest–Shamir–Adleman</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A widely used public-key cryptosystem for secure data transmission. PCI SSF requires RSA keys of at least 2048 bits.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Rivest–Shamir–Adleman</div>
+                    <div class="desc-text mb-0">Cryptosystème à clé publique largement utilisé pour la transmission sécurisée de données. PCI SSF exige des clés RSA d'au moins 2048 bits.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.21, 62</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.44, 62, 63, 65</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-S">
+            <div class="letter-header">S</div>
+            <div class="acronym-card" data-acronym="sad" data-full="sensitive authentication data données d'authentification sensibles">
+                <div class="acronym-title">SAD</div>
+                <div class="acronym-full">Sensitive Authentication Data</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Security-related data used to authenticate cardholders and/or authorize payment transactions (e.g., full track data, CAV2/CVC2/CVV2/CID, PINs). Must not be stored after authorization.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Données d'authentification sensibles</div>
+                    <div class="desc-text mb-0">Données liées à la sécurité utilisées pour authentifier les titulaires de carte et/ou autoriser les transactions (ex. données de piste, CVV, PIN). Ne doivent pas être stockées après autorisation.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.70, 91</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.38, 40, 49</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sast" data-full="static application security testing test statique de sécurité applicative">
+                <div class="acronym-title">SAST</div>
+                <div class="acronym-full">Static Application Security Testing</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A testing methodology that analyzes source code, bytecode, or binary code for security vulnerabilities without executing the application.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Test statique de sécurité applicative</div>
+                    <div class="desc-text mb-0">Méthodologie de test qui analyse le code source, bytecode ou binaire à la recherche de vulnérabilités sans exécuter l'application.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.46, 71, 72</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sbom" data-full="software bill of materials nomenclature des composants logiciels">
+                <div class="acronym-title">SBOM</div>
+                <div class="acronym-full">Software Bill of Materials</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A formal inventory of all software components, libraries, and dependencies used in a software product. Required by PCI SSS for tracking third-party components.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Nomenclature des composants logiciels</div>
+                    <div class="desc-text mb-0">Inventaire formel de tous les composants, bibliothèques et dépendances utilisés dans un produit logiciel. Requis par PCI SSS pour le suivi des composants tiers.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.14</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.28, 72</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sca" data-full="software composition analysis analyse de composition logicielle">
+                <div class="acronym-title">SCA</div>
+                <div class="acronym-full">Software Composition Analysis</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A security practice that identifies and analyzes open source and third-party components in a codebase for known vulnerabilities and license compliance.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Analyse de composition logicielle</div>
+                    <div class="desc-text mb-0">Pratique de sécurité identifiant et analysant les composants open source et tiers dans un code source pour les vulnérabilités connues et la conformité des licences.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.59</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sdk" data-full="software development kit kit de développement logiciel">
+                <div class="acronym-title">SDK</div>
+                <div class="acronym-full">Software Development Kit</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A collection of tools, libraries, and documentation for developing software applications. PCI SSS includes specific requirements for payment SDKs.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Kit de développement logiciel</div>
+                    <div class="desc-text mb-0">Collection d'outils, bibliothèques et documentation pour le développement d'applications. PCI SSS inclut des exigences spécifiques pour les SDK de paiement.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.4, 88, 89, 92</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sdlc" data-full="software development lifecycle cycle de vie du développement logiciel">
+                <div class="acronym-title">SDLC</div>
+                <div class="acronym-full">Software Development Lifecycle</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The process of planning, creating, testing, and deploying software. PCI Secure SLC expands on traditional SDLC to include security at every phase.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Cycle de vie du développement logiciel</div>
+                    <div class="desc-text mb-0">Processus de planification, création, test et déploiement de logiciels. PCI Secure SLC étend le SDLC traditionnel en intégrant la sécurité à chaque phase.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.4</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.84</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sftp" data-full="ssh file transfer protocol protocole de transfert de fichiers ssh">
+                <div class="acronym-title">SFTP</div>
+                <div class="acronym-full">SSH File Transfer Protocol</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A secure file transfer protocol that provides encrypted file transfers over SSH. Required in PCI SSF as a replacement for insecure FTP.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Protocole de transfert de fichiers SSH</div>
+                    <div class="desc-text mb-0">Protocole de transfert de fichiers sécurisé fournissant des transferts chiffrés via SSH. Requis dans PCI SSF comme remplacement du FTP non sécurisé.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.60</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="siem" data-full="security information and event management gestion des informations et événements de sécurité">
+                <div class="acronym-title">SIEM</div>
+                <div class="acronym-full">Security Information and Event Management</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A solution combining security information management and security event management for real-time analysis of security alerts. Required in PCI SSF for centralized log management.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Gestion des informations et événements de sécurité</div>
+                    <div class="desc-text mb-0">Solution combinant la gestion des informations et des événements de sécurité pour l'analyse en temps réel des alertes. Requise dans PCI SSF pour la gestion centralisée des journaux.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.45, 46, 52, 67, 68, 70</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sla" data-full="service level agreement accord de niveau de service">
+                <div class="acronym-title">SLA</div>
+                <div class="acronym-full">Service Level Agreement</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A contract defining the expected level of service. In PCI SSF, SLAs define remediation timeframes for vulnerabilities (e.g., 30 days for critical vulnerabilities).</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Accord de niveau de service</div>
+                    <div class="desc-text mb-0">Contrat définissant le niveau de service attendu. Dans PCI SSF, les SLA définissent les délais de remédiation des vulnérabilités (ex. 30 jours pour les critiques).</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.71</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="slc" data-full="secure (software) lifecycle cycle de vie logiciel sécurisé">
+                <div class="acronym-title">SLC</div>
+                <div class="acronym-full">Secure (Software) Lifecycle</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">Refers to the PCI Secure Software Lifecycle standard, which defines requirements for integrating security throughout the software development lifecycle.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Cycle de vie logiciel sécurisé</div>
+                    <div class="desc-text mb-0">Désigne la norme PCI Secure Software Lifecycle, qui définit les exigences d'intégration de la sécurité tout au long du cycle de vie du développement logiciel.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.2, 3, 4, 5, 6, 7, 9, 10… (+1)</span> <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.9</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.9, 10, 12, 16, 18, 21, 33, 35</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="soc" data-full="security operations center centre des opérations de sécurité">
+                <div class="acronym-title">SOC</div>
+                <div class="acronym-full">Security Operations Center</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A centralized unit that deals with security issues on an organizational and technical level. Referenced in PCI SSF for security monitoring and incident response.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Centre des opérations de sécurité</div>
+                    <div class="desc-text mb-0">Unité centralisée traitant les problèmes de sécurité au niveau organisationnel et technique. Référencé dans PCI SSF pour la surveillance et la réponse aux incidents.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.70</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sred" data-full="secure reading and exchange of data lecture et échange sécurisés des données">
+                <div class="acronym-title">SRED</div>
+                <div class="acronym-full">Secure Reading and Exchange of Data</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A PCI PTS modular requirement for POI devices that ensures secure reading and encrypted exchange of payment data at the point of interaction.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Lecture et échange sécurisés des données</div>
+                    <div class="desc-text mb-0">Exigence modulaire PCI PTS pour les dispositifs POI qui assure la lecture sécurisée et l'échange chiffré des données de paiement au point d'interaction.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.72, 73, 74</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ssa" data-full="secure software assessor évaluateur de logiciel sécurisé">
+                <div class="acronym-title">SSA</div>
+                <div class="acronym-full">Secure Software Assessor</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A qualified company authorized by PCI SSC to perform assessments of payment software against the PCI Secure Software Standard.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Évaluateur de logiciel sécurisé</div>
+                    <div class="desc-text mb-0">Entreprise qualifiée autorisée par le PCI SSC à effectuer des évaluations de logiciels de paiement selon le standard PCI Secure Software.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.26</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ssc" data-full="security standards council (pci ssc) conseil des normes de sécurité (pci ssc)">
+                <div class="acronym-title">SSC</div>
+                <div class="acronym-full">Security Standards Council (PCI SSC)</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The PCI Security Standards Council, the global forum responsible for developing, managing, and promoting PCI security standards.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Conseil des normes de sécurité (PCI SSC)</div>
+                    <div class="desc-text mb-0">Conseil des normes de sécurité PCI, forum mondial responsable du développement, de la gestion et de la promotion des normes de sécurité PCI.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.4, 28</span> <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.5, 35, 61, 72, 90, 92, 93</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.13, 14, 16, 26, 29, 30, 32, 33… (+3)</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ssf" data-full="software security framework cadre de sécurité logicielle">
+                <div class="acronym-title">SSF</div>
+                <div class="acronym-full">Software Security Framework</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The PCI Software Security Framework, encompassing the Secure Software Standard and Secure SLC Standard. It replaces PA-DSS with a modern approach to payment software security.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Cadre de sécurité logicielle</div>
+                    <div class="desc-text mb-0">Cadre de sécurité logicielle PCI, englobant le Secure Software Standard et le Secure SLC Standard. Il remplace PA-DSS par une approche moderne de la sécurité des logiciels de paiement.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.5</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.1, 2, 8, 9, 10, 11, 12, 13… (+18)</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ssh" data-full="secure shell shell sécurisé">
+                <div class="acronym-title">SSH</div>
+                <div class="acronym-full">Secure Shell</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A cryptographic network protocol for secure data communication and remote command execution. Required in PCI SSF as a secure alternative to insecure protocols.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Shell sécurisé</div>
+                    <div class="desc-text mb-0">Protocole réseau cryptographique pour la communication sécurisée et l'exécution de commandes à distance. Requis dans PCI SSF comme alternative sécurisée.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.56, 60, 63</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ssl" data-full="secure sockets layer couche de sockets sécurisés">
+                <div class="acronym-title">SSL</div>
+                <div class="acronym-full">Secure Sockets Layer</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A deprecated cryptographic protocol for securing communications. PCI standards require migration from SSL to TLS 1.2 or higher.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Couche de sockets sécurisés</div>
+                    <div class="desc-text mb-0">Protocole cryptographique obsolète pour sécuriser les communications. Les normes PCI exigent la migration de SSL vers TLS 1.2 ou supérieur.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-primary ref-badge" title="PCI Secure SLC Standard v1.1">SLC v1.1 — p.23</span> <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.41, 60</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sso" data-full="single sign-on authentification unique">
+                <div class="acronym-title">SSO</div>
+                <div class="acronym-full">Single Sign-On</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An authentication scheme that allows users to log in to multiple systems with a single set of credentials.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Authentification unique</div>
+                    <div class="desc-text mb-0">Schéma d'authentification permettant aux utilisateurs de se connecter à plusieurs systèmes avec un seul jeu d'identifiants.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.55</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="sss" data-full="secure software standard (pci sss) norme de sécurité logicielle (pci sss)">
+                <div class="acronym-title">SSS</div>
+                <div class="acronym-full">Secure Software Standard (PCI SSS)</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The PCI Secure Software Standard, which defines security requirements for payment software. Part of the PCI Software Security Framework.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Norme de sécurité logicielle (PCI SSS)</div>
+                    <div class="desc-text mb-0">Norme PCI Secure Software, qui définit les exigences de sécurité pour les logiciels de paiement. Fait partie du PCI Software Security Framework.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.2, 36, 37, 38, 39, 40, 41, 42… (+41)</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="stride" data-full="spoofing, tampering, repudiation, information disclosure, denial of service, elevation of privilege usurpation, falsification, répudiation, divulgation d'information, déni de service, élévation de privilège">
+                <div class="acronym-title">STRIDE</div>
+                <div class="acronym-full">Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A threat modeling methodology developed by Microsoft that categorizes threats into six categories. Referenced in PCI SSF as an accepted threat modeling approach.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Usurpation, Falsification, Répudiation, Divulgation d'information, Déni de service, Élévation de privilège</div>
+                    <div class="desc-text mb-0">Méthodologie de modélisation des menaces développée par Microsoft catégorisant les menaces en six catégories. Référencée dans PCI SSF comme approche acceptée.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.53</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-T">
+            <div class="letter-header">T</div>
+            <div class="acronym-card" data-acronym="tee" data-full="trusted execution environment environnement d'exécution de confiance">
+                <div class="acronym-title">TEE</div>
+                <div class="acronym-full">Trusted Execution Environment</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A secure area within a processor that ensures code and data are protected. Referenced in PCI SSS for protecting sensitive operations on payment devices.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Environnement d'exécution de confiance</div>
+                    <div class="desc-text mb-0">Zone sécurisée au sein d'un processeur garantissant la protection du code et des données. Mentionné dans PCI SSS pour la protection des opérations sensibles.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.89</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="tls" data-full="transport layer security sécurité de la couche de transport">
+                <div class="acronym-title">TLS</div>
+                <div class="acronym-full">Transport Layer Security</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A cryptographic protocol for securing communications over a network. PCI SSF mandates TLS 1.2 or higher for all sensitive data transmissions.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Sécurité de la couche de transport</div>
+                    <div class="desc-text mb-0">Protocole cryptographique pour sécuriser les communications réseau. PCI SSF exige TLS 1.2 ou supérieur pour toutes les transmissions de données sensibles.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.28, 38, 39, 41, 42, 43, 54, 56… (+5)</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="ttl" data-full="time to live durée de vie">
+                <div class="acronym-title">TTL</div>
+                <div class="acronym-full">Time to Live</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A mechanism that limits the lifespan of data or sessions. Used in PCI SSF for controlling session duration and token expiration.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Durée de vie</div>
+                    <div class="desc-text mb-0">Mécanisme limitant la durée de vie des données ou des sessions. Utilisé dans PCI SSF pour le contrôle de la durée des sessions et l'expiration des jetons.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.46</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-U">
+            <div class="letter-header">U</div>
+            <div class="acronym-card" data-acronym="url" data-full="uniform resource locator localisateur uniforme de ressource">
+                <div class="acronym-title">URL</div>
+                <div class="acronym-full">Uniform Resource Locator</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">The address of a resource on the internet. PCI SSS warns against storing sensitive data in URL parameters.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Localisateur uniforme de ressource</div>
+                    <div class="desc-text mb-0">Adresse d'une ressource sur Internet. PCI SSS met en garde contre le stockage de données sensibles dans les paramètres d'URL.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.85</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-V">
+            <div class="letter-header">V</div>
+            <div class="acronym-card" data-acronym="vpn" data-full="virtual private network réseau privé virtuel">
+                <div class="acronym-title">VPN</div>
+                <div class="acronym-full">Virtual Private Network</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A technology that creates an encrypted connection over a less secure network. Used in PCI SSF for secure remote access.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Réseau privé virtuel</div>
+                    <div class="desc-text mb-0">Technologie créant une connexion chiffrée sur un réseau moins sécurisé. Utilisée dans PCI SSF pour l'accès distant sécurisé.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.55, 56, 60</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="vra" data-full="vendor release agreement accord de publication du fournisseur">
+                <div class="acronym-title">VRA</div>
+                <div class="acronym-full">Vendor Release Agreement</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">An agreement between the software vendor and PCI SSC governing the terms for software releases and updates after validation.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Accord de publication du fournisseur</div>
+                    <div class="desc-text mb-0">Accord entre le fournisseur de logiciel et le PCI SSC régissant les conditions de publication et de mise à jour du logiciel après validation.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.26, 34</span> 
+                </div>
+            </div>
+        </div>
+        <div class="letter-section" id="section-X">
+            <div class="letter-header">X</div>
+            <div class="acronym-card" data-acronym="xml" data-full="extensible markup language langage de balisage extensible">
+                <div class="acronym-title">XML</div>
+                <div class="acronym-full">Extensible Markup Language</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A markup language for encoding structured data. PCI SSS warns against the exploitation of serialized formats including XML (e.g., XML injection, XXE attacks).</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Langage de balisage extensible</div>
+                    <div class="desc-text mb-0">Langage de balisage pour l'encodage de données structurées. PCI SSS met en garde contre l'exploitation des formats sérialisés dont XML (ex. injection XML, attaques XXE).</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-success ref-badge" title="PCI Secure Software Standard v2.0">SSS v2.0 — p.82</span> 
+                </div>
+            </div>
+            <div class="acronym-card" data-acronym="xss" data-full="cross-site scripting script intersite">
+                <div class="acronym-title">XSS</div>
+                <div class="acronym-full">Cross-Site Scripting</div>
+                <div class="desc-label">Description (EN)</div>
+                <div class="desc-text">A web security vulnerability that allows attackers to inject malicious scripts into web pages viewed by other users. PCI SSF requires protections against XSS.</div>
+                <div class="fr-section">
+                    <div class="fr-label"><i class="bi bi-translate me-1"></i>Français</div>
+                    <div style="font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;">Script intersite</div>
+                    <div class="desc-text mb-0">Vulnérabilité de sécurité web permettant aux attaquants d'injecter des scripts malveillants dans les pages web vues par d'autres utilisateurs. PCI SSF exige des protections contre le XSS.</div>
+                </div>
+                <div class="ref-badges">
+                    <span class="badge bg-warning text-dark ref-badge" title="Formation PCI SSF v1.0">Formation SSF — p.53</span> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container text-center">
+            <p class="mb-1"><strong>Glossaire PCI SSF</strong> — 99 acronymes extraits de 3 documents PCI</p>
+            <p class="mb-0">PCI Secure SLC Standard v1.1 · PCI Secure Software Standard v2.0 · Formation PCI SSF v1.0</p>
+        </div>
+    </div>
+
+    <!-- Back to top -->
+    <button class="back-to-top" id="backToTop" title="Retour en haut">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Search
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.acronym-card');
+        const sections = document.querySelectorAll('.letter-section');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            let visible = 0;
+
+            cards.forEach(card => {
+                const acr = card.dataset.acronym;
+                const full = card.dataset.full;
+                const match = !query || acr.includes(query) || full.includes(query);
+                card.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+
+            sections.forEach(section => {
+                const visibleCards = section.querySelectorAll('.acronym-card:not([style*="display: none"])');
+                section.style.display = visibleCards.length ? '' : 'none';
+            });
+
+            noResults.style.display = visible === 0 ? 'block' : 'none';
+        });
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('show', window.scrollY > 400);
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Active letter in nav
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    document.querySelectorAll('.letter-nav a').forEach(a => {
+                        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+                    });
+                }
+            });
+        }, { rootMargin: '-80px 0px -70% 0px' });
+
+        sections.forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
